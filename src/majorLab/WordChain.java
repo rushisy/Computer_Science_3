@@ -1,10 +1,7 @@
 package majorLab;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -12,11 +9,10 @@ import java.util.Scanner;
 import java.util.Stack;
 
 public class WordChain {
-
 	private String original; // starting input
 	private String answer; // end result
 	private Queue<Stack<String>> paths; // all paths
-	private boolean flag; // when to stop
+	private ArrayList<String> dictionary; // the words
 
 	/**
 	 * preferred constructor
@@ -25,243 +21,105 @@ public class WordChain {
 	 * @param answer   the end result we want
 	 */
 	public WordChain(String original, String answer) {
-		this.original = original.toUpperCase();
-		this.answer = answer;
+		this.original = original.toUpperCase(); // matches the formatting of dictionary
+		this.answer = answer.toUpperCase(); // matches the formatting of dictionary
 		paths = new LinkedList<Stack<String>>();
+		dictionary = new ArrayList<String>();
 	}
 
 	/**
-	 * outputs a possible path
-	 */
-	public void firstLayer() throws IOException {
-		checkFlag();
-		Scanner key = new Scanner(new File("newDictionary.txt"));
-		ArrayList<String> list = new ArrayList<String>();
-
-		while (key.hasNextLine()) {
-
-			int counter = 0;
-			String line = key.nextLine();
-			for (int i = 0; i < answer.length(); i++) {
-				if (line.charAt(i) == original.charAt(i)) {
-					counter++;
-				}
-
-			}
-			if (counter == (original.length() - 1)) {
-				paths.add(new Stack<String>());
-				list.add(line);
-
-			}
-
-		}
-
-		int counter = 0;
-		for (Stack<String> s : paths) {
-
-			if (counter < list.size()) {
-				s.push(original);
-				s.push(list.get(counter));
-				counter++;
-
-			}
-
-		}
-
-	}
-
-	public void layer() throws IOException {
-		checkFlag();
-		Scanner key = new Scanner(new File("newDictionary.txt"));
-		ArrayList<String> list = new ArrayList<String>();
-
-		Queue<Stack<String>> queue = new LinkedList<Stack<String>>();
-		Stack<String> temp = new Stack<String>();
-		temp = paths.remove();
-		queue.add(temp);
-
-		while (key.hasNextLine()) {
-			int counter = 0;
-			String line = key.nextLine();
-			for (int i = 0; i < answer.length(); i++) {
-				if (line.charAt(i) == queue.peek().peek().charAt(i)) {
-					counter++;
-				}
-			}
-			if (counter == (original.length() - 1)) {
-				queue.add(new Stack<String>());
-				list.add(line);
-				removeTerm("newDictionary.txt", line);
-
-			}
-		}
-
-		int counter = 0;
-		for (Stack<String> s : queue) {
-
-			int size = temp.size();
-			for (int i = 0; i < size; i++) {
-				s.push(temp.get(i));
-				// System.out.println(temp.get(i));
-			}
-			removeDupes(s);
-			// s.setSize(size / 2 + 1);
-			if (counter < list.size()) {
-				s.push(list.get(counter));
-				counter++;
-			}
-		}
-		((LinkedList<Stack<String>>) queue).removeLast();
-
-		for (Stack<String> s : queue) {
-			paths.add(s);
-		}
-	}
-
-	/**
-	 * removes terms that have been used
+	 * checks if original and answer are in the dictionary
 	 * 
-	 * @param filepath   the old file name
-	 * @param removeTerm the term to look for and remove
-	 * 
+	 * @return true if both variables are in the dictionary, false if not
+	 * @throws FileNotFoundException
 	 */
-	public void removeTerm(String filepath, String removeTerm) throws IOException {
-		File oldFile = new File(filepath);
-		File newFile = new File("temp.txt");
-
-		FileWriter fw = new FileWriter("temp.txt", true);
-		BufferedWriter bw = new BufferedWriter(fw);
-		PrintWriter pw = new PrintWriter(bw);
-		String line = "";
-
-		Scanner key = new Scanner(new File(filepath));
-
-		key.useDelimiter("[\n]");
+	public boolean valid() throws FileNotFoundException {
+		int counter = 0;
+		Scanner key = new Scanner(new File("dictionary.txt"));
 
 		while (key.hasNext()) {
-			line = key.next();
-			if (!line.equals(removeTerm)) {
-				pw.println(line);
-			}
-		}
-		pw.close();
+			String line = key.nextLine();
+			if (line.equals(original) || line.equals(answer))
+				counter++; // increments if line is original or answer
 
-		oldFile.delete();
-		File dump = new File(filepath);
-		newFile.renameTo(dump);
+		}
+		return counter == 2;
 	}
 
 	/**
-	 * removes the duplicates
-	 */
-	public void removeDupes(Stack<String> s) {
-		int size = s.size();
-		
-		for (int i = 0; i < size; i++) {
-			if (s.contains(s.get(i))) {
-				s.remove(i);
-			}
-		}
-	}
-
-	/**
-	 * outputs the stack with the shortest length
+	 * keeps checking for path until the queue is empty
 	 * 
-	 * @return Queue<String> the shortest path
+	 * @return Stack<String> the working path
 	 */
-	public Stack<String> getShortestPath() {
-		for (Stack<String> s : paths) {
-			if (s.contains(answer)) {
-				return s;
+	public Stack<String> layer() throws FileNotFoundException {
+		if (!valid())
+			return null;
+
+		if (original.equals(answer)) {
+			paths.add(new Stack<String>());
+			paths.peek().add(original);
+			return paths.peek();
+		}
+
+		paths.add(new Stack<String>()); // adding first word
+		paths.peek().add(original);
+		dictionary.remove(original);
+
+		while (!paths.isEmpty()) {
+			for (int i = 0; i < dictionary.size(); i++) { // iterate thru each word
+				if (compare(dictionary.get(i), paths.peek().peek())) { // check if off by one
+					Stack<String> stack = new Stack<String>();
+
+					int size = paths.peek().size();
+					for (int k = 0; k < size; k++) // copying stacks and transferring
+						stack.add(paths.peek().get(k));
+
+					stack.add(dictionary.get(i));
+					paths.add(stack);
+
+					if (dictionary.get(i).equals(answer)) // if the stack has the answer
+						return stack;
+
+					dictionary.remove(i);
+					i--;
+				}
 			}
+			paths.remove(); // stack is does not contain answer
 		}
 		return null;
 	}
 
 	/**
-	 * creates txt file to use as the new dictionary
+	 * checks if the two words are off by one
+	 * 
+	 * @param source      word one to compare (dictionary.get(i))
+	 * @param destination word two to compare (word)
+	 * @return boolean true if the words are off by one
 	 */
-	public void newDictionary() throws IOException {
-		PrintWriter pw = new PrintWriter(new FileWriter(new File("newDictionary.txt")));
+	public boolean compare(String source, String destination) {
+		int errorCount = 0;
+
+		for (int i = 0; i < source.length(); i++) {
+			if (source.charAt(i) != destination.charAt(i)) // the position does not match
+				errorCount++;
+		}
+
+		if (errorCount == 1) // words can only be off by one
+			return true;
+
+		return false;
+	}
+
+	/**
+	 * populates the dictionary list with potential words
+	 */
+	public void dictionary() throws FileNotFoundException {
 		Scanner key = new Scanner(new File("dictionary.txt"));
 
 		while (key.hasNextLine()) {
 			String line = key.nextLine();
-
-			if (line.length() == original.length()) {
-				pw.println(line);
-			}
-
-		}
-
-		pw.close();
-	}
-
-	public void checkFlag() {
-		for (Stack<String> s : paths) {
-			if (s.contains(answer)) {
-				flag = true;
-			}
+			if (line.length() == original.length()) // add only if same length
+				dictionary.add(line);
 		}
 	}
-
-	/**
-	 * outputs a queue with all the possible paths
-	 * 
-	 * @return Queue<Stack<String>> the queue of stacks
-	 */
-	public Queue<Stack<String>> getPaths() {
-		return this.paths;
-	}
-
-	/**
-	 * outputs the original input
-	 * 
-	 * @return String the input variable
-	 */
-	public String getOriginal() {
-		return this.original;
-	}
-
-	/**
-	 * outputs the desired output
-	 * 
-	 * @return String the answer variable
-	 */
-	public String getAnswer() {
-		return this.answer;
-	}
-
-	/**
-	 * outputs the flag variable
-	 * 
-	 * @return boolean the flag variable
-	 */
-	public boolean getFlag() {
-		return this.flag;
-	}
-
-	/**
-	 * sets the original variable to the input
-	 * 
-	 * @param input the content to assign original
-	 */
-	public void setOriginal(String input) {
-		this.original = input;
-	}
-
-	/**
-	 * sets the answer variable to the input
-	 * 
-	 * @param input the content to assign answer
-	 */
-	public void setAnswer(String input) {
-		this.answer = input;
-	}
-
-	/**
-	 * outputs the paths in desired format
-	 * 
-	 * @return String the desired formatting
-	 */
 }

@@ -1,4 +1,4 @@
-package majorLabTesting;
+package majorLab;
 
 import java.io.File;
 import java.io.FileNotFoundException;

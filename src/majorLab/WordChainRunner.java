@@ -1,22 +1,31 @@
 package majorLab;
 
-import java.io.IOException;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+import java.util.Stack;
 
 public class WordChainRunner {
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws FileNotFoundException {
 		long start = System.nanoTime();
 
-		WordChain obj = new WordChain("SAIL", "RUIN");
-		obj.newDictionary();
-		obj.firstLayer();
-		while (!obj.getFlag()) {
-			obj.layer();
+		Scanner key = new Scanner(new File("input.txt"));
+
+		while (key.hasNext()) {
+			String original = key.next();
+			String answer = key.next();
+			WordChain obj = new WordChain(original, answer);
+			obj.dictionary();
+
+			Stack<String> stack = obj.layer();
+			if (stack != null) {
+				System.out.println("Found a ladder! >>> " + stack);
+			} else {
+				System.out.println("No ladder between " + original + " and " + answer);
+			}
 		}
 
-		System.out.println(obj.getPaths());
-		System.out.println(obj.getShortestPath());
-
 		long stop = System.nanoTime();
-		System.out.println((stop - start) / 1000000000);
+		System.out.println("Execution Time: " + (double) (stop - start) / 1000000000 + " seconds!");
 	}
 }
