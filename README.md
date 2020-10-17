@@ -1,3 +1,3 @@
 # Computer-Science-3
 
-this line is added with eclipse.
+This repository showcases my progression from AP Computer Science to a higher level understanding of JAVA programming.
