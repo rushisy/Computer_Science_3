@@ -1,7 +1,5 @@
 package majorLab;
 
-import java.awt.Color;
-
 public class Tour {
 	private int size; // keeps track of list length
 	private Node head; // first node of list
