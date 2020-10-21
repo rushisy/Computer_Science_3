@@ -27,12 +27,13 @@ public class SearchTree {
 		add(overallRoot, new IntTreeNode(49));
 	}
 
-	private void add(IntTreeNode root, IntTreeNode input) {
+	private IntTreeNode add(IntTreeNode root, IntTreeNode input) {
 		if (root == null || root.data == input.data)
 			root = input;
 		else if (root.data > input.data)
-			add(root.left, input);
+			root.left = add(root.left, input);
 		else if (root.data < input.data)
-			add(root.right, input);
+			root.right = add(root.right, input);
+		return root;
 	}
 }
