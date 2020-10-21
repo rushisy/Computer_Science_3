@@ -1,5 +1,7 @@
 package searchTree;
 
+import java.util.NoSuchElementException;
+
 import examples.IntTreeNode;
 
 public class SearchTree {
@@ -36,4 +38,28 @@ public class SearchTree {
 			root.right = add(root.right, input);
 		return root;
 	}
+
+	public int printGetMin() {
+		if (overallRoot == null) {
+			throw new NoSuchElementException();
+		} else {
+			return getMin(overallRoot);
+		}
+	}
+
+	private int getMin(IntTreeNode root) {
+		if (root.left == null)
+			return root.data;
+		else
+			return getMin(root.left);
+	}
+	
+	
+	/**
+	 * Removal Hacks
+	 * 
+	 * 1. a leaf                               : replace with null
+	 * 2. a node with a left/right child only  : replace with left/right child
+	 * 4. a node with both children            : replace with minimum value from right
+	 */
 }
