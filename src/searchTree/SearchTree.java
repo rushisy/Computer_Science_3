@@ -22,8 +22,4 @@ public class SearchTree {
 				return contains(root.right, key);
 		}
 	}
-
-	public static void main(String[] args) {
-
-	}
 }
