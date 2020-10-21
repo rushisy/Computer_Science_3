@@ -1,7 +1,7 @@
 package practice_lab;
 
 public class Practice_Lab {
-	// SIZE
+	/*// SIZE
 
 	private int counter = 0;
 
@@ -160,5 +160,5 @@ public class Practice_Lab {
 		} else {
 			printLevel(root, key, position);
 		}
-	}
+	}*/
 }

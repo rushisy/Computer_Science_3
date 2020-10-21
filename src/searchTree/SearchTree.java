@@ -22,4 +22,17 @@ public class SearchTree {
 				return contains(root.right, key);
 		}
 	}
+
+	public void printAdd() {
+		add(overallRoot, new IntTreeNode(49));
+	}
+
+	private void add(IntTreeNode root, IntTreeNode input) {
+		if (root == null || root.data == input.data)
+			root = input;
+		else if (root.data > input.data)
+			add(root.left, input);
+		else if (root.data < input.data)
+			add(root.right, input);
+	}
 }
