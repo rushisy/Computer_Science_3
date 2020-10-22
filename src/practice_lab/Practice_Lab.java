@@ -1,7 +1,8 @@
 package practice_lab;
 
 public class Practice_Lab {
-	/*// SIZE
+	/*
+	// SIZE
 
 	private int counter = 0;
 
