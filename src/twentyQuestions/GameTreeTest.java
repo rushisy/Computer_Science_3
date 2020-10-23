@@ -1,36 +1,8 @@
 package twentyQuestions;
 
-/*
- * A start of a unit test for class GameTree in the Game of 20 questions project.
- *
- * This class contains @Test methods to get you started and to explain some behavior.
- *
- *---@BeforeClass public static void setUp() throws FileNotFoundException
- * This setUp() method contains code that write a new file at
- * the beginning so that file always will have the same exact questions and answers.
- * Any method with @BeforeClass executes before any @Test method.
- *
- *---@Test public void testSaveGame() {
- * Test the save method after everything else is working!!!!!
- * Use testSaveGame to test your GameTree save method (you need to remove comments)
- * Method testSaveGame is a large test method that writes a new file, adds
- * questions and answers, saves the modified gGameTree and reads the new
- * game back to ensure save is working correctly.
- *
- * @author Rick Mercer (modified by Mr. Bunn)
- */
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
-
-import org.junit.BeforeClass;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runners.MethodSorters;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING) // run methods in numerical order
 public class GameTreeTest {

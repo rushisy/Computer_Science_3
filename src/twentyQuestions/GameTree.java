@@ -5,15 +5,9 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class GameTree {
-	/**
-	 * Will you need to create an inner class?
-	 */
-	// TODO?
-
-	/**
-	 * Will you need any instance variables?
-	 */
-	// TODO?
+	private Node root;
+	private static Choice choice;
+	private String output;
 
 	/**
 	 * Constructor needed to create the game.
@@ -22,12 +16,19 @@ public class GameTree {
 	 *                 questions and answers from.
 	 */
 	public GameTree(String fileName) {
-
+		output = "";
 		try {
-			Scanner scan = new Scanner(new File(fileName));
+			Scanner key = new Scanner(new File(fileName));
+			root = new Node(key.nextLine());
+			root.left = new Node(key.nextLine());
+			root.right = new Node(key.nextLine());
+			root.right.left = new Node(key.nextLine());
+			root.right.right = new Node(key.nextLine());
 		} catch (FileNotFoundException s) {
 			System.out.println("File does Not Exist Please Try Again: ");
+			root = null;
 		}
+
 	}
 
 	/*
@@ -44,8 +45,30 @@ public class GameTree {
 	 * @param newQ The question to add where the old answer was.
 	 * @param newA The new Yes answer for the new question.
 	 */
+
 	public void add(String newQ, String newA) {
-		// TODO
+		if (root == null) {
+			root = new Node(newQ);
+			root.left = new Node(newA);
+		}
+		helperAdd(root, newQ, newA);
+
+	}
+
+	public Node helperAdd(Node node, String question, String answer) {
+		if (node == null) {
+			node = new Node(question); // question
+			node.left = new Node(answer); // correct answer
+		} else if (node.left == null && node.right == null) {
+			String entry = node.data; // question
+			node.data = question;
+			node.left = new Node(answer); // correct answer
+			node.right = new Node(entry); // incorrect answer
+		} else if (choice == Choice.Yes)
+			node.left = helperAdd(node.left, question, answer);
+		else if (choice == Choice.No)
+			node.right = helperAdd(node.right, question, answer);
+		return node;
 	}
 
 	/**
@@ -55,9 +78,7 @@ public class GameTree {
 	 *         at a leaf.
 	 */
 	public boolean foundAnswer() {
-		// TODO
-
-		return false; // replace
+		return getCurrent().contains("?");
 	}
 
 	/**
@@ -67,8 +88,6 @@ public class GameTree {
 	 * @return The current question or answer.
 	 */
 	public String getCurrent() {
-		// TODO
-
 		return ""; // replace
 	}
 
@@ -79,7 +98,7 @@ public class GameTree {
 	 * @param yesOrNo
 	 */
 	public void playerSelected(Choice yesOrNo) {
-		// TODO
+		choice = yesOrNo;
 	}
 
 	/**
@@ -87,14 +106,24 @@ public class GameTree {
 	 * at the root of this GameTree.
 	 */
 	public void reStart() {
-		// TODO
 	}
 
 	@Override
 	public String toString() {
-		// TODO
+		String output = helperPrint(root, 0);
+		return output;
+	}
 
-		return "";
+	public String helperPrint(Node node, int level) {
+		if (node != null) {
+			helperPrint(node.right, level + 1);
+			for (int i = 0; i < level; i++) {
+				output += "- ";
+			}
+			output += node.data + "\n";
+			helperPrint(node.left, level + 1);
+		}
+		return output;
 	}
 
 	/**
@@ -103,6 +132,16 @@ public class GameTree {
 	 *
 	 */
 	public void saveGame() {
-		// TODO
+	}
+
+	private class Node {
+		String data;
+		Node left;
+		Node right;
+
+		public Node(String data) {
+			this.data = data;
+			left = right = null;
+		}
 	}
 }

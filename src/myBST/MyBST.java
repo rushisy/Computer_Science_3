@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.NoSuchElementException;
 
-import examples.IntTreeNode;
-
 public class MyBST {
 	private BSTNode root;
 	private int counter;
