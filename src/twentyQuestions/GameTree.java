@@ -9,42 +9,37 @@ public class GameTree {
 	private static Choice choice;
 	private String output;
 
-	/**
-	 * Constructor needed to create the game.
-	 *
-	 * @param fileName this is the name of the file we need to import the game
-	 *                 questions and answers from.
-	 */
+	/************************* CONSTRUCTOR PAIR *************************/
+
 	public GameTree(String fileName) {
 		output = "";
 		try {
-			Scanner key = new Scanner(new File(fileName));
-			root = new Node(key.nextLine());
-			root.left = new Node(key.nextLine());
-			root.right = new Node(key.nextLine());
-			root.right.left = new Node(key.nextLine());
-			root.right.right = new Node(key.nextLine());
+			Scanner scan = new Scanner(new File(fileName));
+			while (scan.hasNextLine()) {
+				root = fileHelper(scan);
+			}
 		} catch (FileNotFoundException s) {
 			System.out.println("File does Not Exist Please Try Again: ");
 			root = null;
 		}
-
 	}
 
-	/*
-	 * Add a new question and answer to the currentNode. If the current node has the
-	 * answer chicken, theGame.add("Does it swim?", "goose"); should change that
-	 * node like this:
-	 */
-	// -----------Feathers?-----------------Feathers?------
-	// -------------/----\------------------/-------\------
-	// ------- chicken horse-----Does it swim?-----horse--
-	// -----------------------------/------\---------------
-	// --------------------------goose--chicken-----------
-	/**
-	 * @param newQ The question to add where the old answer was.
-	 * @param newA The new Yes answer for the new question.
-	 */
+	private Node fileHelper(Scanner key) {
+		Node node = null;
+		if (key.hasNextLine()) {
+			String line = key.nextLine();
+			if (line.contains("?")) {
+				node = new Node(line);
+				node.left = fileHelper(key);
+				node.right = fileHelper(key);
+			} else {
+				node = new Node(line);
+			}
+		}
+		return node;
+	}
+
+	/************************* INSERTION PAIR *************************/
 
 	public void add(String newQ, String newA) {
 		if (root == null) {
@@ -55,7 +50,7 @@ public class GameTree {
 
 	}
 
-	public Node helperAdd(Node node, String question, String answer) {
+	private Node helperAdd(Node node, String question, String answer) {
 		if (node == null) {
 			node = new Node(question); // question
 			node.left = new Node(answer); // correct answer
@@ -71,47 +66,39 @@ public class GameTree {
 		return node;
 	}
 
-	/**
-	 * True if getCurrent() returns an answer rather than a question.
-	 *
-	 * @return False if the current node is an internal node rather than an answer
-	 *         at a leaf.
-	 */
+	/************************* GETTER METHODS *************************/
+
 	public boolean foundAnswer() {
-		return getCurrent().contains("?");
+		return !getCurrent().contains("?");
 	}
 
-	/**
-	 * Return the data for the current node, which could be a question or an answer.
-	 * Current will change based on the users progress through the game.
-	 *
-	 * @return The current question or answer.
-	 */
 	public String getCurrent() {
-		return ""; // replace
+		return null;
 	}
 
-	/**
-	 * Ask the game to update the current node by going left for Choice.yes or right
-	 * for Choice.no Example code: theGame.playerSelected(Choice.Yes);
-	 *
-	 * @param yesOrNo
-	 */
+	private Node helperCurrent(Node node) {
+		return null;
+	}
+
+	/************************* ATTRIBUTE METHODS *************************/
+
 	public void playerSelected(Choice yesOrNo) {
 		choice = yesOrNo;
 	}
 
-	/**
-	 * Begin a game at the root of the tree. getCurrent should return the question
-	 * at the root of this GameTree.
-	 */
 	public void reStart() {
 	}
 
+	public void saveGame() {
+	}
+
+	/************************* PRINTING PAIR *************************/
+
 	@Override
 	public String toString() {
-		String output = helperPrint(root, 0);
-		return output;
+		String string = helperPrint(root, 0);
+		output = "";
+		return string;
 	}
 
 	public String helperPrint(Node node, int level) {
@@ -126,13 +113,7 @@ public class GameTree {
 		return output;
 	}
 
-	/**
-	 * Overwrite the old file for this gameTree with the current state that may have
-	 * new questions added since the game started.
-	 *
-	 */
-	public void saveGame() {
-	}
+	/************************* PRIVATE NODE CLASS *************************/
 
 	private class Node {
 		String data;
