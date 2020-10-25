@@ -127,34 +127,38 @@ public class GameOf20GUI extends JFrame {
 		}
 
 		private void doNewQuestionDialog() {
-			int option = JOptionPane.showConfirmDialog(null, "Were you thinking of a " + theGame.getCurrent() + "");
-			if (option == 0) {
-				JOptionPane.showMessageDialog(null, "I knew what you were thinking (or almost)\nGame Over !");
-			} else if (option == 2)
-				return;
-			else {
-				String oldAnswer = theGame.getCurrent();
-				String newAnswer = "";
-				String newQuestion = null;
-				do {
-					newAnswer = "";
-					newAnswer = JOptionPane.showInputDialog(null, "I give up, what were you thinking of?");
-				} while (newAnswer.length() < 1);
+			try {
+				int option = JOptionPane.showConfirmDialog(null, "Were you thinking of a " + theGame.getCurrent() + "");
+				if (option == 0) {
+					JOptionPane.showMessageDialog(null, "I knew what you were thinking (or almost)\nGame Over !");
+				} else if (option == 2)
+					return;
+				else {
+					String oldAnswer = theGame.getCurrent();
+					String newAnswer = "";
+					String newQuestion = null;
+					do {
+						newAnswer = "";
+						newAnswer = JOptionPane.showInputDialog(null, "I give up, what were you thinking of?");
+					} while (newAnswer.length() < 1);
 
-				do {
-					newQuestion = "";
-					newQuestion = JOptionPane.showInputDialog(null, "Give me a yes answer for your '" + newAnswer
-							+ "'\nthat is also a no answer for '" + oldAnswer + "'");
-				} while (newQuestion.length() < 1);
+					do {
+						newQuestion = "";
+						newQuestion = JOptionPane.showInputDialog(null, "Give me a yes answer for your '" + newAnswer
+								+ "'\nthat is also a no answer for '" + oldAnswer + "'");
+					} while (newQuestion.length() < 1);
 
-				if (!newQuestion.endsWith("?"))
-					newQuestion += "?";
-				theGame.add(newQuestion, newAnswer);
-				couldBeSaved = true;
+					if (!newQuestion.endsWith("?"))
+						newQuestion += "?";
+					theGame.add(newQuestion, newAnswer);
+					couldBeSaved = true;
+				}
+				theGame.reStart();
+				IOarea.setText(" " + theGame.getCurrent() + "\n");
+				gameTreeArea.setText(theGame.toString());
+			} catch (Exception e) {
+
 			}
-			theGame.reStart();
-			IOarea.setText(" " + theGame.getCurrent() + "\n");
-			gameTreeArea.setText(theGame.toString());
 		}
 	}
 

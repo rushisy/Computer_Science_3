@@ -2,39 +2,42 @@ package twentyQuestions;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.util.Scanner;
 
 public class GameTree {
-	private Node root;
+	private Node root, position;
+	private String output, filename, question;
 	private static Choice choice;
-	private String output;
 
 	/************************* CONSTRUCTOR PAIR *************************/
 
 	public GameTree(String fileName) {
-		output = "";
+		filename = fileName;
+		question = output = "";
+		choice = null;
+
 		try {
 			Scanner scan = new Scanner(new File(fileName));
-			while (scan.hasNextLine()) {
+			while (scan.hasNextLine())
 				root = fileHelper(scan);
-			}
+			position = root;
 		} catch (FileNotFoundException s) {
 			System.out.println("File does Not Exist Please Try Again: ");
-			root = null;
 		}
 	}
 
 	private Node fileHelper(Scanner key) {
 		Node node = null;
 		if (key.hasNextLine()) {
-			String line = key.nextLine();
+			String line = key.nextLine().trim();
 			if (line.contains("?")) {
 				node = new Node(line);
 				node.left = fileHelper(key);
 				node.right = fileHelper(key);
-			} else {
+			} else
 				node = new Node(line);
-			}
 		}
 		return node;
 	}
@@ -42,12 +45,16 @@ public class GameTree {
 	/************************* INSERTION PAIR *************************/
 
 	public void add(String newQ, String newA) {
+		if (!question.equals("")) {
+			question += "\n" + newQ + "\n" + newA;
+		} else {
+			question = newQ + "\n" + newA;
+		}
 		if (root == null) {
 			root = new Node(newQ);
 			root.left = new Node(newA);
 		}
 		helperAdd(root, newQ, newA);
-
 	}
 
 	private Node helperAdd(Node node, String question, String answer) {
@@ -69,15 +76,15 @@ public class GameTree {
 	/************************* GETTER METHODS *************************/
 
 	public boolean foundAnswer() {
-		return !getCurrent().contains("?");
+		return position.left == null && position.right == null;
 	}
 
 	public String getCurrent() {
-		return null;
-	}
-
-	private Node helperCurrent(Node node) {
-		return null;
+		if (choice == Choice.Yes && position.left != null)
+			position = position.left;
+		else if (choice == Choice.No && position.right != null)
+			position = position.right;
+		return position.data;
 	}
 
 	/************************* ATTRIBUTE METHODS *************************/
@@ -87,18 +94,26 @@ public class GameTree {
 	}
 
 	public void reStart() {
+		position = root;
+		choice = null;
+		output = "";
 	}
 
 	public void saveGame() {
+		try {
+			PrintWriter output = new PrintWriter(new FileWriter(filename, true));
+			output.println(question);
+			output.close();
+			question = "";
+		} catch (Exception e) {
+		}
 	}
 
 	/************************* PRINTING PAIR *************************/
 
 	@Override
 	public String toString() {
-		String string = helperPrint(root, 0);
-		output = "";
-		return string;
+		return helperPrint(root, 0);
 	}
 
 	public String helperPrint(Node node, int level) {
@@ -117,8 +132,7 @@ public class GameTree {
 
 	private class Node {
 		String data;
-		Node left;
-		Node right;
+		Node left, right;
 
 		public Node(String data) {
 			this.data = data;

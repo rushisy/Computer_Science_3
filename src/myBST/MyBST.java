@@ -163,17 +163,17 @@ public class MyBST {
 		if (node.right == null) {
 			return node.left;
 		}
-		BSTNode pre = node;
-		BSTNode curr = node.right;
-		while (curr.left != null) {
-			pre = curr;
-			curr = curr.left;
+		BSTNode before = node;
+		BSTNode right = node.right;
+		while (right.left != null) {
+			before = right;
+			right = right.left;
 		}
-		node.data = curr.data;
-		if (pre.left == curr) {
-			pre.left = curr.right;
+		node.data = right.data;
+		if (before.left == right) {
+			before.left = right.right;
 		} else {
-			pre.right = curr.right;
+			before.right = right.right;
 		}
 		return node;
 	}
