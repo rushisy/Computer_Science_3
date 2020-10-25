@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 public class GameTree {
 	private Node root, position;
-	private String output, filename, insertion, temporary;
+	private String output, filename, insertion;
 	private static Choice choice;
 	private ArrayList<String> list;
 
@@ -77,7 +77,6 @@ public class GameTree {
 
 	public boolean foundAnswer() {
 		if (position.left == null && position.right == null) {
-			temporary = position.data;
 			return true;
 		}
 		return false;
