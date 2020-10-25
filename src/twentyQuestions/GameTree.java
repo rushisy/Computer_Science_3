@@ -8,14 +8,14 @@ import java.util.Scanner;
 
 public class GameTree {
 	private Node root, position;
-	private String output, filename, question;
+	private String output, filename, insertion;
 	private static Choice choice;
 
 	/************************* CONSTRUCTOR PAIR *************************/
 
 	public GameTree(String fileName) {
 		filename = fileName;
-		question = output = "";
+		insertion = output = "";
 		choice = null;
 
 		try {
@@ -32,7 +32,7 @@ public class GameTree {
 		Node node = null;
 		if (key.hasNextLine()) {
 			String line = key.nextLine().trim();
-			if (line.contains("?")) {
+			if (line.endsWith("?")) {
 				node = new Node(line);
 				node.left = fileHelper(key);
 				node.right = fileHelper(key);
@@ -45,11 +45,13 @@ public class GameTree {
 	/************************* INSERTION PAIR *************************/
 
 	public void add(String newQ, String newA) {
-		if (!question.equals(""))
-			question += "\n" + newQ + "\n" + newA;
+		if (!insertion.equals(""))
+			insertion += "\n" + newQ + "\n" + newA;
 		else
-			question = newQ + "\n" + newA;
-		helperAdd(root, newQ, newA);
+			insertion = newQ + "\n" + newA;
+
+		helperAdd(position, newQ, newA);
+		position = root;
 	}
 
 	private Node helperAdd(Node node, String question, String answer) {
@@ -97,9 +99,9 @@ public class GameTree {
 	public void saveGame() {
 		try {
 			PrintWriter output = new PrintWriter(new FileWriter(filename, true));
-			output.println(question);
+			output.println(insertion);
 			output.close();
-			question = "";
+			insertion = "";
 		} catch (Exception e) {
 		}
 	}

@@ -1,17 +1,9 @@
 package twentyQuestions;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.PrintWriter;
-
-import org.junit.BeforeClass;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runners.MethodSorters;
+import static org.junit.Assert.*;
+import java.io.*;
+import org.junit.*;
+import org.junit.runners.*;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING) // run methods in numerical order
 public class GameTreeTest {
