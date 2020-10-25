@@ -45,15 +45,10 @@ public class GameTree {
 	/************************* INSERTION PAIR *************************/
 
 	public void add(String newQ, String newA) {
-		if (!question.equals("")) {
+		if (!question.equals(""))
 			question += "\n" + newQ + "\n" + newA;
-		} else {
+		else
 			question = newQ + "\n" + newA;
-		}
-		if (root == null) {
-			root = new Node(newQ);
-			root.left = new Node(newA);
-		}
 		helperAdd(root, newQ, newA);
 	}
 
