@@ -105,33 +105,25 @@ public class GameTree {
 
 	public void saveGame() {
 		try {
-			Scanner key = new Scanner(new File(filename));
-			while (key.hasNextLine()) {
-				String line = key.nextLine();
-				list.add(line);
-			}
+			PrintWriter output = new PrintWriter(new FileWriter(filename));
+			list = new ArrayList<String>();
+			helperSave(root);
 
-			for (int i = 0; i < list.size(); i++) {
-				if (list.get(i).equals(temporary)) {
-					list.add(i, insertion);
-					break;
-				}
-			}
-
-			PrintWriter clear = new PrintWriter(new FileWriter(filename));
-			clear.close();
-			PrintWriter output = new PrintWriter(new FileWriter(filename, true));
-
-			for (int i = 0; i < list.size(); i++) {
+			for (int i = 0; i < list.size(); i++)
 				output.println(list.get(i));
-			}
 			output.close();
 
-			System.out.println("save game: " + list);
-			list = new ArrayList<String>();
-			insertion = "";
 		} catch (Exception e) {
 		}
+	}
+
+	public Node helperSave(Node node) {
+		if (node != null) {
+			list.add(node.data);
+			node.left = helperSave(node.left);
+			node.right = helperSave(node.right);
+		}
+		return node;
 	}
 
 	/************************* PRINTING PAIR *************************/
