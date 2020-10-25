@@ -4,18 +4,21 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class GameTree {
 	private Node root, position;
-	private String output, filename, insertion;
+	private String output, filename, insertion, temporary;
 	private static Choice choice;
+	private ArrayList<String> list;
 
 	/************************* CONSTRUCTOR PAIR *************************/
 
 	public GameTree(String fileName) {
-		filename = fileName;
+		list = new ArrayList<String>();
 		insertion = output = "";
+		filename = fileName;
 		choice = null;
 
 		try {
@@ -73,7 +76,11 @@ public class GameTree {
 	/************************* GETTER METHODS *************************/
 
 	public boolean foundAnswer() {
-		return position.left == null && position.right == null;
+		if (position.left == null && position.right == null) {
+			temporary = position.data;
+			return true;
+		}
+		return false;
 	}
 
 	public String getCurrent() {
@@ -98,9 +105,30 @@ public class GameTree {
 
 	public void saveGame() {
 		try {
+			Scanner key = new Scanner(new File(filename));
+			while (key.hasNextLine()) {
+				String line = key.nextLine();
+				list.add(line);
+			}
+
+			for (int i = 0; i < list.size(); i++) {
+				if (list.get(i).equals(temporary)) {
+					list.add(i, insertion);
+					break;
+				}
+			}
+
+			PrintWriter clear = new PrintWriter(new FileWriter(filename));
+			clear.close();
 			PrintWriter output = new PrintWriter(new FileWriter(filename, true));
-			output.println(insertion);
+
+			for (int i = 0; i < list.size(); i++) {
+				output.println(list.get(i));
+			}
 			output.close();
+
+			System.out.println("save game: " + list);
+			list = new ArrayList<String>();
 			insertion = "";
 		} catch (Exception e) {
 		}
