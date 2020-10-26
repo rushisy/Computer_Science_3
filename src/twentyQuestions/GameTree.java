@@ -8,10 +8,10 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class GameTree {
-	private Node root, position;
 	private String output, filename, insertion;
-	private static Choice choice;
 	private ArrayList<String> list;
+	private static Choice choice;
+	private Node root, position;
 
 	/************************* CONSTRUCTOR PAIR *************************/
 
@@ -76,10 +76,7 @@ public class GameTree {
 	/************************* GETTER METHODS *************************/
 
 	public boolean foundAnswer() {
-		if (position.left == null && position.right == null) {
-			return true;
-		}
-		return false;
+		return position.left == null && position.right == null;
 	}
 
 	public String getCurrent() {
@@ -111,7 +108,6 @@ public class GameTree {
 			for (int i = 0; i < list.size(); i++)
 				output.println(list.get(i));
 			output.close();
-
 		} catch (Exception e) {
 		}
 	}
