@@ -15,6 +15,11 @@ public class GameTree {
 
 	/************************* CONSTRUCTOR PAIR *************************/
 
+	/**
+	 * preferred constructor
+	 * 
+	 * @param fileName the file to make a tree of
+	 */
 	public GameTree(String fileName) {
 		list = new ArrayList<String>();
 		insertion = output = "";
@@ -31,6 +36,12 @@ public class GameTree {
 		}
 	}
 
+	/**
+	 * a helper method to add the content to the tree
+	 * 
+	 * @param key the position in the file
+	 * @return Node the current node
+	 */
 	private Node fileHelper(Scanner key) {
 		Node node = null;
 		if (key.hasNextLine()) {
@@ -47,6 +58,12 @@ public class GameTree {
 
 	/************************* INSERTION PAIR *************************/
 
+	/**
+	 * method that adds values to the tree
+	 * 
+	 * @param newQ the question to add
+	 * @param newA the answer to add
+	 */
 	public void add(String newQ, String newA) {
 		if (!insertion.equals(""))
 			insertion += "\n" + newQ + "\n" + newA;
@@ -57,6 +74,14 @@ public class GameTree {
 		position = root;
 	}
 
+	/**
+	 * the helper method to add the data to the tree
+	 * 
+	 * @param node     the current node
+	 * @param question the question to add to the tree
+	 * @param answer   the answer to add to the tree
+	 * @return Node the current node
+	 */
 	private Node helperAdd(Node node, String question, String answer) {
 		if (node == null) {
 			node = new Node(question); // question
@@ -75,10 +100,20 @@ public class GameTree {
 
 	/************************* GETTER METHODS *************************/
 
+	/**
+	 * outputs if the answer is found
+	 * 
+	 * @return boolean true if the answer is found else false
+	 */
 	public boolean foundAnswer() {
 		return position.left == null && position.right == null;
 	}
 
+	/**
+	 * the current node at the tree
+	 * 
+	 * @return String the data at the current node
+	 */
 	public String getCurrent() {
 		if (choice == Choice.Yes && position.left != null)
 			position = position.left;
@@ -89,16 +124,27 @@ public class GameTree {
 
 	/************************* ATTRIBUTE METHODS *************************/
 
+	/**
+	 * method to update the choice variable
+	 * 
+	 * @param yesOrNo the value to update the choice variable with
+	 */
 	public void playerSelected(Choice yesOrNo) {
 		choice = yesOrNo;
 	}
 
+	/**
+	 * resets some of the values of class
+	 */
 	public void reStart() {
 		position = root;
 		choice = null;
 		output = "";
 	}
 
+	/**
+	 * adds the current tree to the file
+	 */
 	public void saveGame() {
 		try {
 			PrintWriter output = new PrintWriter(new FileWriter(filename));
@@ -112,6 +158,12 @@ public class GameTree {
 		}
 	}
 
+	/**
+	 * a helper method that saves the binary tree
+	 * 
+	 * @param node the current node
+	 * @return Node the current node
+	 */
 	public Node helperSave(Node node) {
 		if (node != null) {
 			list.add(node.data);
@@ -123,11 +175,23 @@ public class GameTree {
 
 	/************************* PRINTING PAIR *************************/
 
+	/**
+	 * the data in the preferred format
+	 * 
+	 * @return String the data to print
+	 */
 	@Override
 	public String toString() {
 		return helperPrint(root, 0);
 	}
 
+	/**
+	 * a helper method to print the tree
+	 * 
+	 * @param node  the current node
+	 * @param level the level of the current node
+	 * @return String the data at the current node
+	 */
 	public String helperPrint(Node node, int level) {
 		if (node != null) {
 			helperPrint(node.right, level + 1);
@@ -146,6 +210,11 @@ public class GameTree {
 		String data;
 		Node left, right;
 
+		/**
+		 * preferred constructor
+		 * 
+		 * @param data the value to set the data variable
+		 */
 		public Node(String data) {
 			this.data = data;
 			left = right = null;
