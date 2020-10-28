@@ -83,17 +83,14 @@ public class GameTree {
 	 * @return Node the current node
 	 */
 	private Node helperAdd(Node node, String question, String answer) {
-		if (node == null) {
-			node = new Node(question); // question
-			node.left = new Node(answer); // correct answer
-		} else if (node.left == null && node.right == null) {
-			String entry = node.data; // question
+		if (node.left == null && node.right == null) { // left and right are empty
+			String entry = node.data;
 			node.data = question;
-			node.left = new Node(answer); // correct answer
-			node.right = new Node(entry); // incorrect answer
-		} else if (choice == Choice.Yes)
+			node.left = new Node(answer);
+			node.right = new Node(entry);
+		} else if (choice == Choice.Yes) // left tree
 			node.left = helperAdd(node.left, question, answer);
-		else if (choice == Choice.No)
+		else if (choice == Choice.No) // right tree
 			node.right = helperAdd(node.right, question, answer);
 		return node;
 	}
