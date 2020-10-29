@@ -22,7 +22,7 @@ public class Maps103 {
 		for (Integer value : map.values()) {
 			System.out.print(value + "\t");
 		}
-		
+
 		System.out.println();
 
 		Iterator<String> iterator = map.keySet().iterator();

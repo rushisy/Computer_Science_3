@@ -1,23 +1,44 @@
 package histogram;
 
+import java.util.Iterator;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class Histogram {
 	private Map<String, Integer> histogram;
 
 	public Histogram() {
-		// call setSentence
+		histogram = new TreeMap<String, Integer>();
 	}
 
 	public Histogram(String sent) {
-		// call setSentence
+		histogram = new TreeMap<String, Integer>();
+		setSentence(sent);
 	}
 
-	public void setSentence() {
+	public void setSentence(String sentence) {
+		for (String item : sentence.split(" ")) {
+			if (histogram.get(item) == null)
+				histogram.put(item, 1);
+			else
+				histogram.put(item, histogram.get(item) + 1);
+		}
 	}
 
 	public String toString() {
-		String output = "";
-		return output + "\n\n";
+		String output = "char    1---5----10\n";
+		Iterator<String> iterator = histogram.keySet().iterator();
+		while (iterator.hasNext()) {
+			String key = iterator.next();
+			String stars = "";
+
+			for (int i = 0; i < histogram.get(key); i++) {
+				stars += "*";
+			}
+
+			output += key + "       " + stars + "\n";
+		}
+
+		return output;
 	}
 }
