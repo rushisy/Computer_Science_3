@@ -18,8 +18,7 @@ public class SpanishToEnglish {
 	}
 
 	public String translate(String sent) {
-		String word = sent;
-		List<String> list = Arrays.asList(word.split(" "));
+		List<String> list = Arrays.asList(sent.split(" "));
 		String output = "";
 
 		for (int i = 0; i < list.size(); i++)
