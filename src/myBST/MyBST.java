@@ -11,11 +11,23 @@ public class MyBST {
 
 	/************************** INSERT PAIR **************************/
 
+	/**
+	 * adds the value to the tree
+	 * 
+	 * @param i the value to add
+	 */
 	public void insert(int i) {
 		root = helperInsert(root, i);
 	}
 
-	public BSTNode helperInsert(BSTNode node, int value) {
+	/**
+	 * helper method to add the value to the tree
+	 * 
+	 * @param node  current node
+	 * @param value value to add
+	 * @return BSTNode the current node
+	 */
+	private BSTNode helperInsert(BSTNode node, int value) {
 		if (node == null)
 			node = new BSTNode(value);
 		else if (node.data > value)
@@ -27,12 +39,23 @@ public class MyBST {
 
 	/************************** SIZE PAIR **************************/
 
+	/**
+	 * size of the tree
+	 * 
+	 * @return int the size of the tree
+	 */
 	public int size() {
 		counter = 0;
 		return helperSize(root);
 	}
 
-	public int helperSize(BSTNode node) {
+	/**
+	 * outputs the total size of the tree
+	 * 
+	 * @param node the current node
+	 * @return int the size of the tree
+	 */
+	private int helperSize(BSTNode node) {
 		if (node != null) {
 			helperSize(node.left);
 			counter++;
@@ -43,11 +66,24 @@ public class MyBST {
 
 	/************************** CONTAINS PAIR **************************/
 
+	/**
+	 * checks if value is present in tree
+	 * 
+	 * @param i the value to check for
+	 * @return boolean if the node is present in the tree
+	 */
 	public boolean contains(int i) {
 		return helperContains(root, i);
 	}
 
-	public boolean helperContains(BSTNode node, int value) {
+	/**
+	 * ehlper method for the contains method
+	 * 
+	 * @param node  the current node
+	 * @param value the value to add
+	 * @return boolean if the value is present or not
+	 */
+	private boolean helperContains(BSTNode node, int value) {
 		if (node == null) {
 			return false;
 		} else if (node.data == value) {
@@ -58,6 +94,11 @@ public class MyBST {
 
 	/************************** MIN PAIR **************************/
 
+	/**
+	 * outputs the left most node
+	 * 
+	 * @return the smallest node
+	 */
 	public int getMin() {
 		if (root == null)
 			throw new NoSuchElementException();
@@ -65,6 +106,12 @@ public class MyBST {
 			return helperMin(root);
 	}
 
+	/**
+	 * helper method that outputs the smallest node
+	 * 
+	 * @param node the current node
+	 * @return int the smallest node
+	 */
 	private int helperMin(BSTNode node) {
 		if (node.left == null)
 			return node.data;
@@ -74,6 +121,12 @@ public class MyBST {
 
 	/************************** MAX PAIR **************************/
 
+	/**
+	 * method that outputs the greatest node
+	 * 
+	 * @param node the current node
+	 * @return int the greatest node
+	 */
 	public int getMax() {
 		if (root == null)
 			throw new NoSuchElementException();
@@ -81,6 +134,12 @@ public class MyBST {
 			return helperMax(root);
 	}
 
+	/**
+	 * helper method that outputs the greatest node
+	 * 
+	 * @param node the current node
+	 * @return int the greatest node
+	 */
 	private int helperMax(BSTNode node) {
 		if (node.right == null)
 			return node.data;
@@ -90,11 +149,20 @@ public class MyBST {
 
 	/************************** PRINT PAIR **************************/
 
+	/**
+	 * prints the tree
+	 */
 	public void print() {
 		helperPrint(root, 1);
 	}
 
-	public void helperPrint(BSTNode node, int level) {
+	/**
+	 * prints the tree
+	 * 
+	 * @param node  the current tree
+	 * @param level the current level
+	 */
+	private void helperPrint(BSTNode node, int level) {
 		if (node != null) {
 			helperPrint(node.right, level + 1);
 			for (int i = 0; i < level * 4; i++) {
@@ -107,13 +175,22 @@ public class MyBST {
 
 	/************************** IN ORDER PAIR **************************/
 
+	/**
+	 * prints the tree in order traversal
+	 */
 	public void inOrder() {
 		helperInOrder(root, 1);
 		Collections.reverse(list);
-		System.out.println(list.toString());
+		System.out.println(list);
 	}
 
-	public void helperInOrder(BSTNode node, int level) {
+	/**
+	 * helper method that prints the tree in order traversal
+	 * 
+	 * @param node  the current node
+	 * @param level the current level
+	 */
+	private void helperInOrder(BSTNode node, int level) {
 		if (node != null) {
 			helperInOrder(node.right, level + 1);
 			list.add(node);
@@ -123,57 +200,40 @@ public class MyBST {
 
 	/************************** DELETE PAIR **************************/
 
+	/**
+	 * deletes the node from the tree
+	 * 
+	 * @param i the value to delete
+	 */
 	public void delete(int i) {
-		if (!contains(i))
-			return;
-		deleteNode(root, i);
+		if (contains(i))
+			deleteNode(root, i);
 	}
 
-	public BSTNode deleteNode(BSTNode node, int value) {
+	/**
+	 * removes the node
+	 * 
+	 * @param node  the current node
+	 * @param value the value to look for
+	 * @return BSTNode the current node
+	 */
+	private BSTNode deleteNode(BSTNode node, int value) {
 		if (node == null)
-			return root;
-		BSTNode position = search(node, value);
-		if (position.left == node)
-			position.left = del(node);
-		else
-			position.right = del(node);
-		return root;
-	}
-
-	private BSTNode search(BSTNode node, int key) {
-		if (node == null) {
-			return null;
-		} else if (root.data == key) {
 			return node;
-		} else {
-			if (root.data > key)
-				return search(node.left, key);
-			else
-				return search(node.right, key);
-		}
-	}
-
-	private BSTNode del(BSTNode node) {
-		if (node.left == null && node.right == null) {
-			return null;
-		}
-		if (node.left == null) {
-			return node.right;
-		}
-		if (node.right == null) {
-			return node.left;
-		}
-		BSTNode before = node;
-		BSTNode right = node.right;
-		while (right.left != null) {
-			before = right;
-			right = right.left;
-		}
-		node.data = right.data;
-		if (before.left == right) {
-			before.left = right.right;
-		} else {
-			before.right = right.right;
+		BSTNode smallest = new BSTNode(9); // replacement
+		while (smallest.left != null)
+			smallest = smallest.left;
+		if (node.data > value) // go left to find the node
+			node.left = deleteNode(node.left, value);
+		else if (node.data < value) // go right to find the node
+			node.right = deleteNode(node.right, value);
+		else {
+			if (node.left == null) // right to current
+				return node.right;
+			else if (node.right == null) // left to current
+				return node.left;
+			node.data = smallest.data;
+			node.right = deleteNode(node.right, node.data);
 		}
 		return node;
 	}
@@ -185,11 +245,6 @@ public class MyBST {
 		public BSTNode(Integer val) {
 			this.data = val;
 			left = right = null;
-		}
-
-		@Override
-		public String toString() {
-			return "" + this.data;
 		}
 	}
 
