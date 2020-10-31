@@ -7,15 +7,28 @@ import java.util.TreeMap;
 public class Histogram {
 	private Map<String, Integer> histogram;
 
+	/**
+	 * default constructor
+	 */
 	public Histogram() {
 		histogram = new TreeMap<String, Integer>();
 	}
 
+	/**
+	 * preferred constructor
+	 * 
+	 * @param sent value of the sentence
+	 */
 	public Histogram(String sent) {
 		histogram = new TreeMap<String, Integer>();
 		setSentence(sent);
 	}
 
+	/**
+	 * adds the sentence to the map
+	 * 
+	 * @param sentence the variable to add to the map
+	 */
 	public void setSentence(String sentence) {
 		for (String item : sentence.split(" ")) {
 			if (histogram.get(item) == null)
@@ -25,6 +38,11 @@ public class Histogram {
 		}
 	}
 
+	/**
+	 * outputs the map in the desired format
+	 * 
+	 * @return String the map
+	 */
 	public String toString() {
 		String output = "char    1---5----10\n";
 		Iterator<String> iterator = histogram.keySet().iterator();
