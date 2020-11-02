@@ -20,12 +20,11 @@ public class PartList {
 				String[] list = scan.nextLine().split(" ");
 				Part part = null;
 
-				if (list.length == 6) {
+				if (list.length < 6)
+					part = new Part(list[2] + " " + list[3] + " " + list[4] + " " + list[0] + " " + list[1]);
+				else
 					part = new Part(
 							list[3] + " " + list[4] + " " + list[5] + " " + list[0] + " " + list[1] + " " + list[2]);
-				} else {
-					part = new Part(list[2] + " " + list[3] + " " + list[4] + " " + list[0] + " " + list[1]);
-				}
 
 				if (partsMap.containsKey(part))
 					partsMap.put(part, partsMap.get(part) + 1);
@@ -41,6 +40,6 @@ public class PartList {
 		String output = "";
 		for (Part part : partsMap.keySet())
 			output += part.toString() + "- " + partsMap.get(part) + "\n";
-		return output.toString();
+		return output;
 	}
 }
