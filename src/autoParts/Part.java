@@ -6,16 +6,23 @@ public class Part implements Comparable<Part> {
 
 	public Part(String line) {
 		String[] list = line.split(" ");
+		make = list[0];
+		mode = list[1];
+		year = Integer.parseInt(list[2]);
 
+		rest = "";
+		for (int i = 3; i < list.length; i++) {
+			rest += list[i] + " ";
+		}
 	}
 
-	// have to have compareTo if implements Comparable
 	public int compareTo(Part rhs) {
-
-		return 0;
+		String currentCompare = make + mode + year + rest;
+		String inputCompare = rhs.make + rhs.mode + rhs.year + rhs.rest;
+		return currentCompare.compareTo(inputCompare);
 	}
 
 	public String toString() {
-		return "";
+		return make + " " + mode + " " + year + " " + rest;
 	}
 }
