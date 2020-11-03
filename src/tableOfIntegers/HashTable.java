@@ -22,7 +22,7 @@ public class HashTable {
 		if (table[i] == null)
 			table[i] = new LinkedList();
 		if (!table[i].contains(((Number) obj).getValue())) {
-			table[i].add(((Number) obj).getValue());
+			table[i].add(((Number) obj).getValue()); 
 		}
 
 	}
