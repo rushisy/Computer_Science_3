@@ -25,4 +25,12 @@ public class PhoneBook implements IMap {
 		return null;
 	}
 
+	private class Node {
+		private String data;
+		private Node next;
+
+		public Node(String data) {
+			this.data = data;
+		}
+	}
 }
