@@ -1,0 +1,11 @@
+Type of Hashing: Quadratic Probing
+Type of Hash Function: key % table.length
+Number of Records Added: 49995
+Table Size: 50000Load Factor: 0.9999
+Average Insertion Time: 391 milliseconds
+Number of Insertion Collisions: 750824
+Number of Collisions vs Insertions: 1500%
+Average Time to find Table Entry: 6 milliseconds
+Average Number of Probes to find Table Entry: 1000
+Average Time to NOT find Table Entry: 4 milliseconds
+Average Number of Probes to NOT find Table Entry: 1000

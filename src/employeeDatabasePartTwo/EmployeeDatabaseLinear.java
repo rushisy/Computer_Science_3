@@ -1,7 +1,10 @@
-package employeeDatabasePartOne;
+package employeeDatabasePartTwo;
 
 public class EmployeeDatabaseLinear {
 	private Entry[] table;
+	private int size;
+	private int collisions;
+	private int probes;
 
 	public EmployeeDatabaseLinear(int size) {
 		table = new Entry[size];
@@ -16,9 +19,11 @@ public class EmployeeDatabaseLinear {
 		for (int i = 0; i < table.length; i++) {
 			if (table[code] == null) {
 				table[code] = new Entry(key, new Employee(value));
+				size++;
 				return new Employee(value);
 			}
 			code++;
+			collisions++;
 			code %= table.length;
 		}
 		return new Employee(value);
@@ -27,14 +32,35 @@ public class EmployeeDatabaseLinear {
 	public Employee get(int key) {
 		int code = hashCode(key);
 		for (int i = 0; i < table.length; i++) {
-			if (table[code] == null)
-				break;
+			probes++;
+			if (table[code] == null || table[i].ID != key)
+				return null;
 			else if (table[code].ID == key)
 				return table[code].employee;
 
 			code++;
 		}
 		return null;
+	}
+
+	public void setProbes(int input) {
+		probes = input;
+	}
+
+	public int getCollisions() {
+		return collisions;
+	}
+
+	public int getProbes() {
+		return probes;
+	}
+
+	public int size() {
+		return table.length;
+	}
+
+	public int recordSize() {
+		return size;
 	}
 
 	@Override

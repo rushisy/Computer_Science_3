@@ -1,13 +1,21 @@
 package majorLab;
 
 public class Person {
-	@Override
-	public int hashCode() {
-		return -1;
+	private String firstName;
+	private String lastName;
+
+	public Person(String firstName, String lastName) {
+		this.firstName = firstName;
+		this.lastName = lastName;
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		return false;
+	public int hashCode() {
+		return (firstName.length() + lastName.length()) % 10;
+	}
+
+	@Override
+	public String toString() {
+		return firstName + " " + lastName;
 	}
 }

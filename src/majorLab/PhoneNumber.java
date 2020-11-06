@@ -1,6 +1,11 @@
 package majorLab;
 
 public class PhoneNumber {
+	private String number;
+
+	public PhoneNumber(String number) {
+		this.number = number;
+	}
 
 	@Override
 	public int hashCode() {
@@ -8,7 +13,7 @@ public class PhoneNumber {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		return false;
+	public String toString() {
+		return number + "";
 	}
 }

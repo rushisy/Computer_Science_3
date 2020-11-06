@@ -1,4 +1,4 @@
-package employeeDatabasePartOne;
+package employeeDatabasePartTwo;
 
 public class Employee {
 	private String name;
