@@ -57,7 +57,7 @@ public class MyLinkedList {
 
 		while (position.next != null) {
 
-			if (position.getVal() == target)
+			if (position.val == target)
 				return true;
 			position = position.next;
 		}
@@ -76,12 +76,12 @@ public class MyLinkedList {
 
 		if (isEmpty())
 			return -1;
-		else if (head.getVal() == target)
+		else if (head.val == target)
 			return 0;
 
 		while (position != null) {
 			counter++;
-			if (position.getVal() == target) {
+			if (position.val == target) {
 				return counter;
 			}
 
@@ -101,7 +101,7 @@ public class MyLinkedList {
 		if (isEmpty() || index < 0 || index > size()) {
 			return -1;
 		} else if (index == 0)
-			return head.getVal();
+			return head.val;
 
 		ListNode position = head;
 
@@ -110,7 +110,7 @@ public class MyLinkedList {
 				return -1;
 			position = position.next;
 		}
-		return position.getVal();
+		return position.val;
 	}
 
 	/**
@@ -133,7 +133,7 @@ public class MyLinkedList {
 				return;
 			position = position.next;
 		}
-		position.setVal(newVal);
+		position.val = newVal;
 	}
 
 	/**
@@ -164,7 +164,7 @@ public class MyLinkedList {
 		if (isEmpty() || index < 0 || index > size())
 			return -1;
 		else if (index == 0) {
-			int output = head.getVal();
+			int output = head.val;
 			head = head.next;
 			size--;
 			return output;
@@ -179,7 +179,7 @@ public class MyLinkedList {
 			position = position.next;
 		}
 
-		int output = position.getVal();
+		int output = position.val;
 
 		position.next = position.next.next;
 		size--;
@@ -248,34 +248,6 @@ public class MyLinkedList {
 		 */
 		public ListNode(int val) {
 			this.val = val;
-		}
-
-		/**
-		 * the value at the node
-		 * 
-		 * @return int the value
-		 */
-		public int getVal() {
-			return val;
-		}
-
-		/**
-		 * sets the value of the data
-		 * 
-		 * @param input the input to change val to
-		 */
-		public void setVal(int input) {
-			val = input;
-		}
-
-		/**
-		 * outputs the node in the desired format
-		 * 
-		 * @return String the value of the node
-		 */
-		@Override
-		public String toString() {
-			return "" + this.val;// for printing / debug}
 		}
 	}
 }
