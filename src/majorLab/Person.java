@@ -15,6 +15,11 @@ public class Person {
 	}
 
 	@Override
+	public boolean equals(Object obj) {
+		return toString().equals(((Person) obj).toString());
+	}
+
+	@Override
 	public String toString() {
 		return firstName + " " + lastName;
 	}

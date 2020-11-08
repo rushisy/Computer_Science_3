@@ -2,10 +2,10 @@ Type of Hashing: Linear Probing
 Type of Hash Function: key % table.length
 Number of Records Added: 50000
 Table Size: 50000Load Factor: 1.0
-Average Insertion Time: 1275 milliseconds
+Average Insertion Time: 3085 milliseconds
 Number of Insertion Collisions: 112443302
 Number of Collisions vs Insertions: 224800%
-Average Time to find Table Entry: 4 milliseconds
+Average Time to find Table Entry: 6 milliseconds
 Average Number of Probes to find Table Entry: 1000
-Average Time to NOT find Table Entry: 2 milliseconds
+Average Time to NOT find Table Entry: 6 milliseconds
 Average Number of Probes to NOT find Table Entry: 1000

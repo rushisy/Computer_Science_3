@@ -1,48 +1,65 @@
 package majorLab;
 
-import java.util.Hashtable;
-import java.util.LinkedList;
-
 public class PhoneBook implements IMap {
-	private Hashtable<Person, PhoneNumber> table;
-	private LinkedList<Entry> list;
+	private Entry[] table;
 
 	public PhoneBook() {
-		table = new Hashtable<Person, PhoneNumber>();
-		list = new LinkedList<Entry>();
+		table = new Entry[5000];
+	}
+
+	public int hashCode(int key) {
+		return key % 10;
 	}
 
 	@Override
 	public PhoneNumber put(Person person, PhoneNumber phone) {
-		list.add(new Entry(person, phone));
-		return table.put(person, phone);
+		int code = hashCode(person.hashCode());
+		for (int i = 0; i < table.length; i++) {
+			if (table[code] == null) {
+				table[code] = new Entry(person, phone);
+				return phone;
+			}
+			code++;
+			code %= table.length;
+		}
+		return phone;
 	}
 
-	public Hashtable<Person, PhoneNumber> getTable() {
-		return table;
-	}
-
-	public LinkedList<Entry> getList() {
-		return list;
+	@Override
+	public boolean equals(Object obj) {
+		return toString().equals(((PhoneBook) obj).toString());
 	}
 
 	@Override
 	public PhoneNumber get(Person person) {
-		return table.get(person);
+		int code = hashCode(person.hashCode());
+		System.out.println(code);
+		for (int i = 0; i < table.length; i++) {
+			if (table[code].person.equals(person)) {
+				System.out.println(code);
+				return table[code].number;
+			}
+			code++;
+		}
+		return null;
 	}
 
 	@Override
 	public int size() {
-		return table.size();
+		return table.length;
 	}
 
 	@Override
 	public PhoneNumber remove(Person person) {
-		for (int i = 0; i < list.size(); i++) {
-			if (list.get(i).person == person)
-				list.remove(i);
-		}
-		return table.remove(person);
+		return null;
+	}
+
+	@Override
+	public String toString() {
+		String output = "";
+		for (int i = 0; i < table.length; i++)
+			output += table[i].toString() + "\n";
+		return output;
 	}
 
 	private class Entry {
