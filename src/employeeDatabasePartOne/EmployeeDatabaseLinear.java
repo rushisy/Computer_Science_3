@@ -3,14 +3,32 @@ package employeeDatabasePartOne;
 public class EmployeeDatabaseLinear {
 	private Entry[] table;
 
+	/**
+	 * preferred constructor
+	 * 
+	 * @param size the value to assign the database
+	 */
 	public EmployeeDatabaseLinear(int size) {
 		table = new Entry[size];
 	}
 
+	/**
+	 * creates the hashcode
+	 * 
+	 * @param key the intput value of the employee
+	 * @return int the new hashcode
+	 */
 	public int hashCode(int key) {
 		return key % table.length;
 	}
 
+	/**
+	 * adds the employee to the database
+	 * 
+	 * @param key   the employee ID
+	 * @param value the employee name
+	 * @return Employee the added employee
+	 */
 	public Employee put(int key, String value) {
 		int code = hashCode(key);
 		for (int i = 0; i < table.length; i++) {
@@ -24,6 +42,12 @@ public class EmployeeDatabaseLinear {
 		return new Employee(value);
 	}
 
+	/**
+	 * outputs the employee at a given location
+	 * 
+	 * @param key the key of the employee
+	 * @return Employee the employee object at the hashcode position
+	 */
 	public Employee get(int key) {
 		int code = hashCode(key);
 		for (int i = 0; i < table.length; i++) {
@@ -37,6 +61,11 @@ public class EmployeeDatabaseLinear {
 		return null;
 	}
 
+	/**
+	 * outputs the database
+	 * 
+	 * @return String the database in the desired format
+	 */
 	@Override
 	public String toString() {
 		String output = "";
@@ -49,6 +78,12 @@ public class EmployeeDatabaseLinear {
 		private int ID;
 		private Employee employee;
 
+		/**
+		 * preferred constructor
+		 * 
+		 * @param ID       the ID of the entry
+		 * @param employee the employee object of the entry object
+		 */
 		public Entry(int ID, Employee employee) {
 			this.ID = ID;
 			this.employee = employee;

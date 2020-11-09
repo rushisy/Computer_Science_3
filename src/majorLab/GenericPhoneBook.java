@@ -1,34 +1,34 @@
 package majorLab;
 
-public class PhoneBook implements IMap {
+public class GenericPhoneBook<K, V> implements GenericIMap {
 	private Entry[] table;
 
-	public PhoneBook() {
+	public GenericPhoneBook() {
 		table = new Entry[5000];
 	}
 
 	@Override
-	public PhoneNumber put(Person person, PhoneNumber phone) {
-		int code = person.hashCode() + phone.hashCode();
+	public V put(Object key, Object value) {
+		int code = key.hashCode() + value.hashCode();
 		for (int i = 0; i < table.length; i++) {
 			if (table[code] == null) {
-				table[code] = new Entry(person, phone);
-				return phone;
+				table[code] = new Entry(key, value);
+				return (V) value;
 			}
 			code++;
 			code %= table.length;
 
 		}
-		return phone;
+		return (V) value;
 	}
 
 	@Override
-	public PhoneNumber get(Person person) {
+	public V get(Object key) {
 		try {
-			int code = person.hashCode();
+			int code = key.hashCode();
 			for (int i = 0; i < table.length; i++) {
-				if (table[code].person.equals(person)) {
-					return table[code].number;
+				if (table[code].key.equals(key)) {
+					return (V) table[code].value;
 				}
 				code++;
 			}
@@ -44,15 +44,15 @@ public class PhoneBook implements IMap {
 	}
 
 	@Override
-	public PhoneNumber remove(Person person) {
+	public V remove(Object key) {
 		try {
-			int code = person.hashCode();
+			int code = key.hashCode();
 			for (int i = 0; i < table.length; i++) {
-				if (table[code].person.equals(person)) {
-					int temp = person.hashCode();
+				if (table[code].key.equals(key)) {
+					int temp = key.hashCode();
 					Entry obj = table[temp];
 					table[temp] = null;
-					return obj.number;
+					return (V) obj.value;
 				}
 				code++;
 			}
@@ -72,17 +72,17 @@ public class PhoneBook implements IMap {
 		return output;
 	}
 
-	private class Entry {
-		private Person person;
-		private PhoneNumber number;
+	private class Entry<K, V> {
+		private K key;
+		private V value;
 
-		public Entry(Person person, PhoneNumber number) {
-			this.person = person;
-			this.number = number;
+		public Entry(K key, V value) {
+			this.key = key;
+			this.value = value;
 		}
 
 		public String toString() {
-			return person.toString() + " -> " + number.toString();
+			return key.toString() + " -> " + value.toString();
 		}
 	}
 }

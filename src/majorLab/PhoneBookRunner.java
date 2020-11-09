@@ -15,6 +15,15 @@ public class PhoneBookRunner {
 		}
 		System.out.println(obj.toString());
 
-		System.out.println(obj.get(new Person("Glenden", "Asser")));
+		System.out.println(String.join("\u0332", "Getter Method Test".split("", -1)) + "\n"); // for formatting
+
+		System.out.println(obj.get(new Person("Ann", "Vinas"))); // 114-200-1786
+		System.out.println(obj.get(new Person("Ludkfjsldk", "LKfdikdkf"))); // null
+
+		System.out.println(String.join("\u0332", "Remove Method Test".split("", -1)) + "\n");
+
+		System.out.println(obj.remove(new Person("Glenden", "Asser"))); // 250-429-2291
+		System.out.println(obj.remove(new Person("SDKFJKSJDLF", "DFKLJkdfjr"))); // null
+
 	}
 }
