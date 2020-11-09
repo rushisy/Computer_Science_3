@@ -19,11 +19,15 @@ public class PhoneBookRunner {
 
 		System.out.println(obj.get(new Person("Ann", "Vinas"))); // 114-200-1786
 		System.out.println(obj.get(new Person("Ludkfjsldk", "LKfdikdkf"))); // null
+		System.out.println(obj.get(new Person("Tiphanie", "Cossor"))); // 776-938-4664
 
-		System.out.println(String.join("\u0332", "Remove Method Test".split("", -1)) + "\n");
+		System.out.println("\n" + String.join("\u0332", "Remove Method Test".split("", -1)) + "\n");
 
 		System.out.println(obj.remove(new Person("Glenden", "Asser"))); // 250-429-2291
+		System.out.println(obj.remove(new Person("Ardath", "Tizard"))); // 250-429-2291
 		System.out.println(obj.remove(new Person("SDKFJKSJDLF", "DFKLJkdfjr"))); // null
 
+		//test case for generic
+		//delete method
 	}
 }

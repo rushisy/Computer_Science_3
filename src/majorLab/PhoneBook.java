@@ -7,7 +7,7 @@ public class PhoneBook implements IMap {
 	 * default constructor
 	 */
 	public PhoneBook() {
-		table = new Entry[5000];
+		table = new Entry[5002];
 	}
 
 	/**
@@ -77,7 +77,10 @@ public class PhoneBook implements IMap {
 				if (table[code].person.equals(person)) {
 					int temp = person.hashCode();
 					Entry obj = table[temp];
-					table[temp] = null;
+					String string = "";
+					for (int j = 0; j < obj.person.size(); j++)
+						string += " ";
+					table[temp] = new Entry(new Person(string, ""), new PhoneNumber(""));
 					return obj.number;
 				}
 				code++;

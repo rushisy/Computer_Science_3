@@ -45,4 +45,12 @@ public class Person {
 	public String toString() {
 		return firstName + " " + lastName;
 	}
+
+	/**
+	 * outputs the size
+	 * @return int outputs the size of the string
+	 */
+	public int size() {
+		return firstName.length() + lastName.length();
+	}
 }
