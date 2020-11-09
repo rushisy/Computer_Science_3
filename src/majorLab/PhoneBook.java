@@ -3,10 +3,19 @@ package majorLab;
 public class PhoneBook implements IMap {
 	private Entry[] table;
 
+	/**
+	 * default constructor
+	 */
 	public PhoneBook() {
 		table = new Entry[5000];
 	}
 
+	/**
+	 * adds the key value pair to the table
+	 * 
+	 * @param person the key of the pair
+	 * @param phone  the value of the pair
+	 */
 	@Override
 	public PhoneNumber put(Person person, PhoneNumber phone) {
 		int code = person.hashCode() + phone.hashCode();
@@ -22,6 +31,12 @@ public class PhoneBook implements IMap {
 		return phone;
 	}
 
+	/**
+	 * outputs the value of the key
+	 * 
+	 * @param person the key to search for
+	 * @return PhoneNumber the value of the key
+	 */
 	@Override
 	public PhoneNumber get(Person person) {
 		try {
@@ -38,11 +53,22 @@ public class PhoneBook implements IMap {
 		}
 	}
 
+	/**
+	 * outputs the size of the database
+	 * 
+	 * @return int the size of the table
+	 */
 	@Override
 	public int size() {
 		return table.length;
 	}
 
+	/**
+	 * removes the key value pair from the database
+	 * 
+	 * @param person the key to search and remove
+	 * @return PhoneNumber that got removed
+	 */
 	@Override
 	public PhoneNumber remove(Person person) {
 		try {
@@ -62,6 +88,11 @@ public class PhoneBook implements IMap {
 		}
 	}
 
+	/**
+	 * outputs the database
+	 * 
+	 * @return String the database in the desired format
+	 */
 	@Override
 	public String toString() {
 		String output = "";
@@ -76,11 +107,22 @@ public class PhoneBook implements IMap {
 		private Person person;
 		private PhoneNumber number;
 
+		/**
+		 * default constructor
+		 * 
+		 * @param person the key to pair
+		 * @param number the value to the pair
+		 */
 		public Entry(Person person, PhoneNumber number) {
 			this.person = person;
 			this.number = number;
 		}
 
+		/**
+		 * outputs the entry object
+		 * 
+		 * @return String a string representation of the object's elements
+		 */
 		public String toString() {
 			return person.toString() + " -> " + number.toString();
 		}
