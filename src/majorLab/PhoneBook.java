@@ -1,13 +1,15 @@
 package majorLab;
 
+import java.util.LinkedList;
+
 public class PhoneBook implements IMap {
-	private Entry[] table;
+	private LinkedList[] table;
 
 	/**
 	 * default constructor
 	 */
 	public PhoneBook() {
-		table = new Entry[5002];
+		table = new LinkedList[10];
 	}
 
 	/**
@@ -18,16 +20,10 @@ public class PhoneBook implements IMap {
 	 */
 	@Override
 	public PhoneNumber put(Person person, PhoneNumber phone) {
-		int code = person.hashCode() + phone.hashCode();
-		for (int i = 0; i < table.length; i++) {
-			if (table[code] == null) {
-				table[code] = new Entry(person, phone);
-				return phone;
-			}
-			code++;
-			code %= table.length;
-
-		}
+		if (table[person.hashCode()] == null)
+			table[person.hashCode()] = new LinkedList();
+		if (!table[person.hashCode()].contains(((Person) person).getName()))
+			table[person.hashCode()].add((new Entry(person, phone)));
 		return phone;
 	}
 
@@ -39,18 +35,13 @@ public class PhoneBook implements IMap {
 	 */
 	@Override
 	public PhoneNumber get(Person person) {
-		try {
-			int code = person.hashCode();
-			for (int i = 0; i < table.length; i++) {
-				if (table[code].person.equals(person)) {
-					return table[code].number;
-				}
-				code++;
-			}
-			return null;
-		} catch (Exception e) {
-			return null;
+		for (int j = 0; j < table[person.hashCode()].size(); j++) {
+			if (((Entry) table[person.hashCode()].get(j)).person.getName().contains(person.getName()))
+				return ((Entry) table[person.hashCode()].get(j)).number;
 		}
+
+		return null;
+
 	}
 
 	/**
@@ -71,24 +62,14 @@ public class PhoneBook implements IMap {
 	 */
 	@Override
 	public PhoneNumber remove(Person person) {
-		try {
-			int code = person.hashCode();
-			for (int i = 0; i < table.length; i++) {
-				if (table[code].person.equals(person)) {
-					int temp = person.hashCode();
-					Entry obj = table[temp];
-					String string = "";
-					for (int j = 0; j < obj.person.size(); j++)
-						string += " ";
-					table[temp] = new Entry(new Person(string, ""), new PhoneNumber(""));
-					return obj.number;
-				}
-				code++;
+		for (int j = 0; j < table[person.hashCode()].size(); j++) {
+			if (((Entry) table[person.hashCode()].get(j)).person.getName().contains(person.getName())) {
+				PhoneNumber num = ((Entry) table[person.hashCode()].get(j)).number;
+				table[person.hashCode()].remove(j);
+				return num;
 			}
-			return null;
-		} catch (Exception e) {
-			return null;
 		}
+		return null;
 	}
 
 	/**
@@ -97,11 +78,10 @@ public class PhoneBook implements IMap {
 	 * @return String the database in the desired format
 	 */
 	@Override
-	public String toString() {
-		String output = "";
+	public String toString() { // used for testing
+		String output = "HASHTABLE\n";
 		for (int i = 0; i < table.length; i++) {
-			if (table[i] != null)
-				output += table[i].toString() + "\n";
+			output += "bucket " + i + ": " + table[i].toString().substring(1, table[i].toString().length() - 1) + "\n";
 		}
 		return output;
 	}
@@ -109,6 +89,7 @@ public class PhoneBook implements IMap {
 	private class Entry {
 		private Person person;
 		private PhoneNumber number;
+		private Entry next;
 
 		/**
 		 * default constructor
@@ -119,6 +100,7 @@ public class PhoneBook implements IMap {
 		public Entry(Person person, PhoneNumber number) {
 			this.person = person;
 			this.number = number;
+			next = null;
 		}
 
 		/**

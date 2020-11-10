@@ -1,8 +1,7 @@
 package majorLab;
 
 public class Person {
-	private String firstName;
-	private String lastName;
+	private String name;
 
 	/**
 	 * preferred constructor
@@ -10,9 +9,8 @@ public class Person {
 	 * @param firstName the first name of the person
 	 * @param lastName  the last name of the person
 	 */
-	public Person(String firstName, String lastName) {
-		this.firstName = firstName;
-		this.lastName = lastName;
+	public Person(String first, String second) {
+		name = first + " " + second;
 	}
 
 	/**
@@ -22,7 +20,11 @@ public class Person {
 	 */
 	@Override
 	public int hashCode() {
-		return (firstName.length() + lastName.length()) % 10;
+		return name.length() % 10;
+	}
+	
+	public String getName() {
+		return name;
 	}
 
 	/**
@@ -43,14 +45,15 @@ public class Person {
 	 */
 	@Override
 	public String toString() {
-		return firstName + " " + lastName;
+		return name;
 	}
 
 	/**
 	 * outputs the size
+	 * 
 	 * @return int outputs the size of the string
 	 */
 	public int size() {
-		return firstName.length() + lastName.length();
+		return name.length();
 	}
 }
