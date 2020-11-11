@@ -89,7 +89,6 @@ public class PhoneBook implements IMap {
 	private class Entry {
 		private Person person;
 		private PhoneNumber number;
-		private Entry next;
 
 		/**
 		 * default constructor
@@ -100,7 +99,6 @@ public class PhoneBook implements IMap {
 		public Entry(Person person, PhoneNumber number) {
 			this.person = person;
 			this.number = number;
-			next = null;
 		}
 
 		/**
