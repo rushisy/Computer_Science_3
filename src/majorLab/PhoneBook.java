@@ -35,11 +35,14 @@ public class PhoneBook implements IMap {
 	 */
 	@Override
 	public PhoneNumber get(Person person) {
-		for (int j = 0; j < table[person.hashCode()].size(); j++) {
-			if (((Entry) table[person.hashCode()].get(j)).person.getName().contains(person.getName()))
-				return ((Entry) table[person.hashCode()].get(j)).number;
+		try {
+			for (int j = 0; j < table[person.hashCode()].size(); j++) {
+				if (((Entry) table[person.hashCode()].get(j)).person.getName().contains(person.getName()))
+					return ((Entry) table[person.hashCode()].get(j)).number;
+			}
+		} catch (Exception e) {
+			return null;
 		}
-
 		return null;
 
 	}
@@ -86,7 +89,7 @@ public class PhoneBook implements IMap {
 		return output;
 	}
 
-	private class Entry {
+	private class Entry { // entry contains person and his/her/they number
 		private Person person;
 		private PhoneNumber number;
 

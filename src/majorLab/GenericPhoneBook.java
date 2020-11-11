@@ -1,13 +1,15 @@
 package majorLab;
 
+import java.util.LinkedList;
+
 public class GenericPhoneBook<K, V> implements GenericIMap {
-	private Entry[] table;
+	private LinkedList[] table;
 
 	/**
 	 * default constructor
 	 */
 	public GenericPhoneBook() {
-		table = new Entry[5000];
+		table = new LinkedList[10];
 	}
 
 	/**
@@ -18,16 +20,10 @@ public class GenericPhoneBook<K, V> implements GenericIMap {
 	 */
 	@Override
 	public V put(Object key, Object value) {
-		int code = key.hashCode() + value.hashCode();
-		for (int i = 0; i < table.length; i++) {
-			if (table[code] == null) {
-				table[code] = new Entry(key, value);
-				return (V) value;
-			}
-			code++;
-			code %= table.length;
-
-		}
+		if (table[key.hashCode()] == null)
+			table[key.hashCode()] = new LinkedList();
+		if (!table[key.hashCode()].contains(((Person) key).getName()))
+			table[key.hashCode()].add((new Entry(key, value)));
 		return (V) value;
 	}
 
@@ -39,18 +35,13 @@ public class GenericPhoneBook<K, V> implements GenericIMap {
 	 */
 	@Override
 	public V get(Object key) {
-		try {
-			int code = key.hashCode();
-			for (int i = 0; i < table.length; i++) {
-				if (table[code].key.equals(key)) {
-					return (V) table[code].value;
-				}
-				code++;
-			}
-			return null;
-		} catch (Exception e) {
-			return null;
+		for (int j = 0; j < table[key.hashCode()].size(); j++) {
+			if (((Person) ((Entry) table[key.hashCode()].get(j)).key).getName().contains(((Person) key).getName()))
+				return (V) ((Entry) table[key.hashCode()].get(j)).value;
 		}
+
+		return null;
+
 	}
 
 	/**
@@ -71,21 +62,14 @@ public class GenericPhoneBook<K, V> implements GenericIMap {
 	 */
 	@Override
 	public V remove(Object key) {
-		try {
-			int code = key.hashCode();
-			for (int i = 0; i < table.length; i++) {
-				if (table[code].key.equals(key)) {
-					int temp = key.hashCode();
-					Entry obj = table[temp];
-					table[temp] = null;
-					return (V) obj.value;
-				}
-				code++;
+		for (int j = 0; j < table[key.hashCode()].size(); j++) {
+			if (((Person) ((Entry) table[key.hashCode()].get(j)).key).getName().contains(((Person) key).getName())) {
+				PhoneNumber num = (PhoneNumber) ((Entry) table[key.hashCode()].get(j)).value;
+				table[key.hashCode()].remove(j);
+				return (V) num;
 			}
-			return null;
-		} catch (Exception e) {
-			return null;
 		}
+		return null;
 	}
 
 	/**
@@ -95,10 +79,9 @@ public class GenericPhoneBook<K, V> implements GenericIMap {
 	 */
 	@Override
 	public String toString() {
-		String output = "";
+		String output = "HASHTABLE\n";
 		for (int i = 0; i < table.length; i++) {
-			if (table[i] != null)
-				output += table[i].toString() + "\n";
+			output += "bucket " + i + ": " + table[i].toString().substring(1, table[i].toString().length() - 1) + "\n";
 		}
 		return output;
 	}

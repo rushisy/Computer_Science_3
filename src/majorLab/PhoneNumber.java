@@ -19,7 +19,7 @@ public class PhoneNumber {
 	 */
 	@Override
 	public String toString() {
-		return number + "";
+		return number;
 	}
 
 	/**
