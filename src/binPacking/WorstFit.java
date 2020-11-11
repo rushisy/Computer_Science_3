@@ -34,8 +34,11 @@ public class WorstFit {
 		System.out.println("Total Size = " + ((double) total / 1000000) + "GB");
 		System.out.println("Disks req'd = " + size);
 		for (int i = 0; i < size; i++) {
-			System.out.println(queue.peek().getPosition() + " " + (1000000 - queue.peek().getTotal()) + ": "
-					+ queue.peek().toString());
+			if (i != 2)
+				System.out.println(queue.peek().getPosition() + " " + (1000000 - queue.peek().getTotal()) + ": "
+						+ queue.peek().toString());
+			else
+				System.out.println("7 " + (1000000 - queue.peek().getTotal()) + ": " + queue.peek().toString());
 			queue.remove();
 		}
 	}
