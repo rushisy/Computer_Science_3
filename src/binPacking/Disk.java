@@ -3,36 +3,19 @@ package binPacking;
 import java.util.ArrayList;
 
 public class Disk implements Comparable<Disk> {
-	private ArrayList<Integer> list = new ArrayList<Integer>();
-	private int total;
+	private ArrayList<Integer> list;
 	private int position;
+	private int total;
 
-	public Disk(int size) {
-		if (size == 0)
-			return;
-		list.add(size);
-		total += size;
+	public Disk(int position) {
+		total = 1000000;
+		list = new ArrayList<Integer>();
+		this.position = position;
 	}
 
-	public void setPosition(int input) {
-		position = input;
-	}
-
-	public int getPosition() {
-		return position;
-	}
-
-	public int compareTo(Disk obj) {
-		if (this.getTotal() == obj.getTotal())
-			return 0;
-		else if (this.getTotal() > obj.getTotal())
-			return 1;
-		return -1;
-	}
-
-	public void add(int input) {
+	public int add(int input) {
 		list.add(input);
-		total += input;
+		return total -= input;
 	}
 
 	public int getTotal() {
@@ -40,8 +23,17 @@ public class Disk implements Comparable<Disk> {
 	}
 
 	@Override
+	public int compareTo(Disk obj) {
+		if (total == obj.total) {
+			return 0;
+		} else if (total > obj.total)
+			return -1;
+		return 1;
+	}
+
+	@Override
 	public String toString() {
-		String output = list.toString();
-		return output.substring(1, output.length() - 1);
+		return position + " " + total + ": "
+				+ list.toString().substring(1, list.toString().length() - 1).replaceAll(",", "");
 	}
 }

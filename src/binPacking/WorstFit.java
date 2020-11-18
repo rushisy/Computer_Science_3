@@ -1,45 +1,38 @@
 package binPacking;
 
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.PriorityQueue;
 import java.util.Scanner;
 
 public class WorstFit {
-	public static void main(String[] args) throws FileNotFoundException {
-		PriorityQueue<Disk> queue = new PriorityQueue<Disk>();
+	public static void main(String[] args) throws IOException {
 		Scanner key = new Scanner(new File("input20.txt"));
-		int total = 0;
-		int position = 0;
+		PriorityQueue<Disk> queue = new PriorityQueue<Disk>();
 		Disk current = new Disk(0);
+		int position = 1;
+		int total = 0;
 
-		while (key.hasNextInt()) {
+		queue.add(current);
+		while (key.hasNextLine()) {
 			int line = key.nextInt();
-			total += line;
-			if (queue.isEmpty()) {
-				current.add(line);
-				queue.add(current);
-			} else if (current.getTotal() + line < 1000000) {
-				current.add(line);
-			} else {
-				queue.add(current);
-				current = new Disk(line);
-				position++;
-			}
-			current.setPosition(position);
-		}
-		current.setPosition(position);
+			current = queue.poll();
 
-		int size = queue.size();
-		System.out.println("Total Size = " + ((double) total / 1000000) + "GB");
-		System.out.println("Disks req'd = " + size);
-		for (int i = 0; i < size; i++) {
-			if (i != 2)
-				System.out.println(queue.peek().getPosition() + " " + (1000000 - queue.peek().getTotal()) + ": "
-						+ queue.peek().toString());
-			else
-				System.out.println("7 " + (1000000 - queue.peek().getTotal()) + ": " + queue.peek().toString());
-			queue.remove();
+			if (current.getTotal() - line < 0) {
+				Disk newDisk = new Disk(position++);
+				newDisk.add(line);
+				queue.add(newDisk);
+			} else
+				current.add(line);
+			queue.add(current);
+			total += line;
 		}
+
+		System.out.println("Total size: " + (double) total / 1000000 + " GB");
+		System.out.println("Disks req'd = " + queue.size() + "\n");
+		System.out.println("# Avail");
+
+		while (!queue.isEmpty())
+			System.out.println(queue.poll());
 	}
 }

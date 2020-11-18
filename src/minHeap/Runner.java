@@ -26,5 +26,10 @@ public class Runner {
 
 		System.out.println("Peek min (shouldn't change) = " + heap.peekMinimum());
 		heap.display();
+
+		heap = new MinHeap(2, 5, 6, 7, 456, 23, 88);
+		System.out.println("Heap toString: " + heap);
+		System.out.println("\ninitial state of the heap");
+		heap.display();
 	}
 }
