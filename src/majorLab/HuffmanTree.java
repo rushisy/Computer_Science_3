@@ -1,72 +1,150 @@
 package majorLab;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.PriorityQueue;
+import java.util.Scanner;
 
 public class HuffmanTree {
 	private Node root;
-	private PriorityQueue<Node> tree = new PriorityQueue<Node>();
+	private PriorityQueue<Node> tree;
 
+	/**
+	 * preferred constructor
+	 * 
+	 * @param count array of values to add to the queue
+	 */
 	public HuffmanTree(int[] count) {
+		tree = new PriorityQueue<Node>();
 
 		for (int i = 0; i < count.length; i++) {
-			if (count[i] != 0 && i > 10)
-				System.out.println("index: " + i + ", char: " + i + ", count: " + count[i]);
-			if (count[i] != 0) {
-				tree.add(new Node(i, (char) count[i], null, null));
-			}
+			if (count[i] != 0)
+				tree.add(new Node(i, count[i], null, null));
 		}
-		tree.add(new Node(256, (char) 1, null, null));
-		while (tree.size() > 1) {
+		tree.add(new Node(256, 1, null, null));
+		while (tree.size() >= 2) {
 			Node left = tree.poll();
 			Node right = tree.poll();
-
-			tree.add(new Node(-1, (char) (left.frequency + right.frequency), left, right));
+			tree.add(new Node(-1, left.frequency + right.frequency, left, right));
 		}
 		root = tree.poll();
 	}
-	
-	public Node getRoot() {
-		return root;
-	}
 
-	public void write(String filename) throws IOException {
-		FileOutputStream writer = new FileOutputStream(filename, true);
+	/**
+	 * encodes the tree
+	 * 
+	 * @param filename the data to create the code off of
+	 */
+	public void write(String filename) throws FileNotFoundException {
+		PrintWriter writer = new PrintWriter(new File(filename));
 		writeHelper(writer, root, "");
+		writer.close();
 	}
 
-	public void writeHelper(FileOutputStream writer, Node current, String binary) throws IOException {
-		if (current.left == null & current.right == null) {
-			System.out.print(current.letter + "\n" + binary);
-		} else {
-			writeHelper(writer, current.left, binary + 0);
-			writeHelper(writer, current.right, binary + 1);
+	/**
+	 * creates the coded file by using binary
+	 * 
+	 * @param output  the PrintWriter to create a coded file
+	 * @param current the current position of the node
+	 * @param binary  the path
+	 */
+	private void writeHelper(PrintWriter output, Node current, String binary) {
+		if (current.left == null & current.right == null)
+			output.println(current.letter + "\n" + binary);
+		else {
+			writeHelper(output, current.left, binary + 0);
+			writeHelper(output, current.right, binary + 1);
 		}
 	}
 
-}
+	/**
+	 * populates the tree from the file
+	 * 
+	 * @param filename the file to create the tree based off of
+	 */
+	public HuffmanTree(String filename) throws FileNotFoundException {
+		Scanner key = new Scanner(new File(filename));
+		int counter = 1;
+		int letter = -1;
+		root = new Node(-1, 0, null, null);
+		Node current = null;
 
-class Node implements Comparable<Node> {
-	public int frequency;
-	public char letter;
-	public Node left, right;
-
-	public Node(int frequency, char letter, Node left, Node right) {
-		this.frequency = frequency;
-		this.letter = letter;
-		this.left = left;
-		this.right = right;
+		while (key.hasNextLine()) {
+			String line = key.nextLine();
+			if (counter % 2 == 0) // on
+				checker(line, current, letter);
+			else // off
+				letter = Integer.parseInt(line);
+			counter++;
+		}
 	}
 
-	@Override
-	public int compareTo(Node obj) {
-		return frequency - obj.frequency;
+	/**
+	 * creates nodes on the left side or right side depending on the binary
+	 * 
+	 * @param line    the current line on the scanner
+	 * @param current the current position at the node
+	 * @param letter  the ASCII value of the character
+	 */
+	public void checker(String line, Node current, int letter) {
+		Node previous = root;
+		for (int i = 0; i < line.length(); i++) {
+			if (line.charAt(i) != 48) { // right side check
+				if (previous.right != null)
+					current = previous.right;
+				else {
+					if (i != line.length() - 1)
+						current = new Node(-1, 0, null, null);
+					else
+						current = new Node(letter, 0, null, null);
+					previous.right = current;
+				}
+
+			} else { // left side check
+				if (previous.left != null)
+					current = previous.left;
+				else {
+					if (i != line.length() - 1)
+						current = new Node(-1, 0, null, null);
+					else
+						current = new Node(letter, 0, null, null);
+					previous.left = current;
+				}
+
+			}
+			previous = current;
+		}
 	}
 
-	@Override
-	public String toString() {
-		return "here";
-	}
+	/**
+	 * decodes the file
+	 * 
+	 * @param input    the BitInputStream object of the binary code
+	 * @param filename the outfile to write to
+	 */
+	public void decode(BitInputStream input, String filename) throws FileNotFoundException {
+		PrintWriter writer = new PrintWriter(new File(filename));
+		int bits = 0;
+		String line = "";
 
+		while (1 != 0) {
+			Node position = root;
+			while (1 != 0) {
+				if (input.readBit() == 0)
+					position = position.left;
+				else
+					position = position.right;
+				if (position.letter >= 0)
+					break;
+			}
+			bits = position.letter;
+			if (bits < 256)
+				line += (char) bits;
+			else
+				break;
+		}
+		writer.print(line);
+		writer.close();
+	}
 }

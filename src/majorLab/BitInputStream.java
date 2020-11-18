@@ -1,4 +1,5 @@
 package majorLab;
+
 //The BitOutputStream and BitInputStream classes provide the ability to
 //write and read individual bits to a file in a compact form.  One major
 //limitation of this approach is that the resulting file will always have
@@ -13,15 +14,15 @@ package majorLab;
 //      reads the next bit from input (-1 if at end of file)
 //  public void close()
 //      closes the input
-
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.IOException;
 
 public class BitInputStream {
 	private FileInputStream input;
-	private int digits;     // next set of digits (buffer)
-	private int numDigits;  // how many digits from buffer have been used
+	private int digits; // next set of digits (buffer)
+	private int numDigits; // how many digits from buffer have been used
 
-	private static final int BYTE_SIZE = 8;  // digits per byte
+	private static final int BYTE_SIZE = 8; // digits per byte
 
 	// pre : given file name is legal
 	// post: creates a BitInputStream reading input from the file
@@ -31,7 +32,7 @@ public class BitInputStream {
 		} catch (IOException e) {
 			throw new RuntimeException(e.toString());
 		}
-		nextByte(); //grab the next 8 bits from the file
+		nextByte();
 	}
 
 	// post: reads next bit from input (-1 if at end of file)
