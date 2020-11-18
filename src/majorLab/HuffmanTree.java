@@ -65,55 +65,23 @@ public class HuffmanTree {
 	 */
 	public HuffmanTree(String filename) throws FileNotFoundException {
 		Scanner key = new Scanner(new File(filename));
-		int counter = 1;
-		int letter = -1;
 		root = new Node(-1, 0, null, null);
-		Node current = null;
-
 		while (key.hasNextLine()) {
-			String line = key.nextLine();
-			if (counter % 2 == 0) // on
-				checker(line, current, letter);
-			else // off
-				letter = Integer.parseInt(line);
-			counter++;
-		}
-	}
-
-	/**
-	 * creates nodes on the left side or right side depending on the binary
-	 * 
-	 * @param line    the current line on the scanner
-	 * @param current the current position at the node
-	 * @param letter  the ASCII value of the character
-	 */
-	public void checker(String line, Node current, int letter) {
-		Node previous = root;
-		for (int i = 0; i < line.length(); i++) {
-			if (line.charAt(i) != 48) { // right side check
-				if (previous.right != null)
-					current = previous.right;
-				else {
-					if (i != line.length() - 1)
-						current = new Node(-1, 0, null, null);
-					else
-						current = new Node(letter, 0, null, null);
-					previous.right = current;
+			int line = Integer.parseInt(key.nextLine());
+			String code = key.nextLine();
+			Node node = root;
+			for (int i = 0; i < code.length(); i++) {
+				if (code.charAt(i) == '0') {
+					if (node.left == null)
+						node.left = new Node(-1, 0, null, null);
+					node = node.left;
+				} else {
+					if (node.right == null)
+						node.right = new Node(-1, 0, null, null);
+					node = node.right;
 				}
-
-			} else { // left side check
-				if (previous.left != null)
-					current = previous.left;
-				else {
-					if (i != line.length() - 1)
-						current = new Node(-1, 0, null, null);
-					else
-						current = new Node(letter, 0, null, null);
-					previous.left = current;
-				}
-
 			}
-			previous = current;
+			node.letter = line;
 		}
 	}
 

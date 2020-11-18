@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class HuffmanCompressor {
 
 	public static void main(String[] args) throws Exception {
-		String filename = "short.txt";
+		String filename = "Hamlet.txt";
 		compress(filename);
 		expand("code.code", filename);
 	}
