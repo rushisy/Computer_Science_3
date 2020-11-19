@@ -11,7 +11,7 @@ public class HuffmanCompressor {
 	public static void main(String[] args) throws Exception {
 		String filename = "Hamlet.txt";
 		compress(filename);
-		expand("code.code", filename);
+		expand("code.code", "new.new");
 	}
 
 	/**

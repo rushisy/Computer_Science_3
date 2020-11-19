@@ -1,16 +1,16 @@
 package minHeap;
 
-public class MinHeap {
-	private Integer[] heap;
+public class MinHeapGeneric<T extends Comparable<T>> {
+	private T[] heap;
 	private int size;
 	private int capacity = 8;
 
 	/**
 	 * default constructor
 	 */
-	public MinHeap() {
+	public MinHeapGeneric() {
 		size = 0;
-		heap = new Integer[capacity + 1];
+		heap = (T[]) new Comparable[capacity + 1];
 	}
 
 	/**
@@ -18,10 +18,10 @@ public class MinHeap {
 	 * 
 	 * @param nums varargs of integers to add to the queue
 	 */
-	public MinHeap(Integer... nums) {
+	public MinHeapGeneric(T... nums) {
 		size = 0;
-		heap = new Integer[capacity + 1];
-		for (Integer num : nums)
+		heap = (T[]) new Comparable[capacity + 1];
+		for (T num : nums)
 			insert(num);
 	}
 
@@ -57,7 +57,7 @@ public class MinHeap {
 	 * 
 	 * @return int the value at the first element
 	 */
-	public int peekMinimum() {
+	public T peekMinimum() {
 		return heap[1];
 	}
 
@@ -96,7 +96,7 @@ public class MinHeap {
 	 * 
 	 * @param value the value to add
 	 */
-	public void insert(int value) {
+	public void insert(T value) {
 		if (size == capacity) {
 			doubleCapacity();
 		}
@@ -110,8 +110,8 @@ public class MinHeap {
 	 * @param index the next available value to bubble up
 	 */
 	private void bubbleUp(int index) {
-		while (index > 1 && heap[index / 2] > heap[index]) {
-			int temp = heap[index / 2];
+		while (index > 1 && (Integer) heap[index / 2] > (Integer) heap[index]) {
+			T temp = heap[index / 2];
 			heap[index / 2] = heap[index];
 			heap[index] = temp;
 			index /= 2;
@@ -123,11 +123,11 @@ public class MinHeap {
 	 * 
 	 * @return int the value removed
 	 */
-	public int popMinimum() {
+	public T popMinimum() {
 		if (isEmpty())
-			return -1;
+			return null;
 
-		int min = heap[1];
+		T min = heap[1];
 		heap[1] = heap[size];
 		heap[size] = min;
 
@@ -144,12 +144,13 @@ public class MinHeap {
 	 */
 	private void siftDown(int index) {
 		int position = index;
-		if (getLeftChildIndex(index) < size && heap[position] > heap[getLeftChildIndex(index)])
+		if (getLeftChildIndex(index) < size && (Integer) heap[position] > (Integer) heap[getLeftChildIndex(index)])
 			position = getLeftChildIndex(index);
-		else if (getRightChildIndex(index) < size && heap[position] > heap[getRightChildIndex(index)])
+		else if (getRightChildIndex(index) < size
+				&& (Integer) heap[position] > (Integer) heap[getRightChildIndex(index)])
 			position = getRightChildIndex(index);
 		if (position != index) {
-			int temp = heap[index];
+			T temp = heap[index];
 			heap[index] = heap[position];
 			heap[position] = temp;
 			siftDown(position);
@@ -160,11 +161,11 @@ public class MinHeap {
 	 * doubles the capcity of the array
 	 */
 	public void doubleCapacity() {
-		Integer[] array = new Integer[capacity * 2];
+		T[] array = (T[]) new Comparable[capacity * 2];
 		capacity *= 2;
 		for (int i = 0; i < heap.length; i++)
 			array[i] = heap[i];
-		heap = new Integer[capacity];
+		heap = (T[]) new Comparable[capacity];
 		heap = array;
 	}
 
