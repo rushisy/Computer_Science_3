@@ -45,11 +45,11 @@ public class NearestInsertion {
 			/*
 			 * uncomment the 4 lines below to animate
 			 */
-			StdDraw.clear();
-			tour.draw();
-			StdDraw.show();
-			StdDraw.text(100, 10, "" + tour.distance());
-			StdDraw.pause(1);
+//			StdDraw.clear();
+//			tour.draw();
+//			StdDraw.show();
+//			StdDraw.text(100, 10, "" + tour.distance());
+//			StdDraw.pause(1);
 		}
 
 		// draw to standard draw
