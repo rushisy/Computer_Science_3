@@ -38,15 +38,15 @@ public class HuffmanCompressor {
 		while (key2.hasNextLine())
 			list2[Integer.parseInt(key2.nextLine())] = key2.nextLine();
 
-		int n = input2.read();
-		while (n != -1) {
-			if (list2[n] == null)
+		int line = input2.read();
+		while (line != -1) {
+			if (list2[line] == null)
 				throw new Exception();
 
-			for (int i = 0; i < list2[n].length(); i++)
-				output.writeBit(list2[n].charAt(i) - '0');
+			for (int i = 0; i < list2[line].length(); i++)
+				output.writeBit(list2[line].charAt(i) - '0');
 
-			n = input2.read();
+			line = input2.read();
 		}
 		input2.close();
 		for (int i = 0; i < list2[256].length(); i++)
