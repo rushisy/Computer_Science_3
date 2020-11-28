@@ -1,12 +1,12 @@
 package forestFire;
 
 public class FireCell {
-	public static final int DIRT = 0, GREEN = 1, BURNING = 2;
+	public static final int DIRT = 0, GREEN = 1, BURNING = 2, TESTING = 3;
 	private int status;
 
 	public FireCell() {
 		status = DIRT;
-		if (Math.random() <= 0.60)
+		if (Math.random() <= .60)
 			status = GREEN;
 	}
 
