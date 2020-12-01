@@ -108,8 +108,8 @@ public class BoggleSolver {
 		System.out.println("WORKING");
 
 		final String PATH = "";
-		BoggleBoard board = new BoggleBoard(PATH + "board-q.txt");
-		BoggleSolver solver = new BoggleSolver(PATH + "dictionary-algs4.txt");
+		BoggleBoard board = new BoggleBoard(PATH + "board-points26539.txt");
+		BoggleSolver solver = new BoggleSolver(PATH + "dictionary-zingarelli2005.txt");
 
 		int totalPoints = 0;
 
