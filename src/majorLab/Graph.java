@@ -7,6 +7,11 @@ public class Graph {
 	public int edges;
 	public Vertex[] array;
 
+	/**
+	 * preferred constructor
+	 * 
+	 * @param key the scanner to the file
+	 */
 	public Graph(Scanner key) {
 		vertices = key.nextInt();
 		edges = key.nextInt();
@@ -18,11 +23,18 @@ public class Graph {
 		}
 
 		key.nextLine();
-		for (int i = 0; i <= edges; i++) {
+		for (int i = 0; i < edges; i++) {
 			array[key.nextInt()].edges.add(key.nextInt());
 		}
 	}
 
+	/**
+	 * returns the euclidean distance between to points
+	 * 
+	 * @param from point one
+	 * @param to   point two
+	 * @return the distance between two points
+	 */
 	public double distance(int from, int to) {
 		return array[from].distance(array[to]);
 	}
