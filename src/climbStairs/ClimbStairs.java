@@ -19,14 +19,13 @@ public class ClimbStairs {
 	 * 
 	 * @param steps the number of steps left to take
 	 */
-	public static int climbStairsHelper(int n) {
-		if (n == 1 || n == 0)
+	public static int climbStairsHelper(int steps) {
+		if (steps == 1 || steps == 0)
 			return 1;
-		else if (n == 2)
+		else if (steps == 2)
 			return 2;
-
 		else
-			return climbStairsHelper(n - 3) + climbStairsHelper(n - 2) + climbStairsHelper(n - 1);
+			return climbStairsHelper(steps - 3) + climbStairsHelper(steps - 2) + climbStairsHelper(steps - 1);
 
 	}
 }
