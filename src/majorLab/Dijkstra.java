@@ -6,14 +6,11 @@ import java.util.HashSet;
 import java.util.PriorityQueue;
 import java.util.Scanner;
 import java.util.Set;
-import java.util.Stack;
 
 public class Dijkstra {
 	private Graph graph;
 	private PriorityQueue<Vertex> queue;
 	private Set<Integer> set;
-	private int start;
-	private int end;
 
 	/**
 	 * preferred constructor
@@ -26,8 +23,6 @@ public class Dijkstra {
 		this.graph = graph;
 		queue = new PriorityQueue<Vertex>();
 		set = new HashSet<Integer>();
-		this.start = start;
-		this.end = end;
 		dijkstra(start, end);
 	}
 
@@ -88,8 +83,6 @@ public class Dijkstra {
 	}
 
 	public static void main(String[] args) throws FileNotFoundException {
-		Graph obj = new Graph(new Scanner(new File("input6.txt")));
-		Dijkstra obj2 = new Dijkstra(obj, 0, 5);
-
+		Dijkstra obj2 = new Dijkstra(new Graph(new Scanner(new File("input6.txt"))), 0, 5);
 	}
 }
