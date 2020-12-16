@@ -34,13 +34,13 @@ public class CountPaths {
 			matrix[row][col] = 1;
 		else
 			matrix[row][col] = matrix[row - 1][col] + matrix[row][col - 1] + matrix[row - 1][col - 1];
-		if (row >= 0 && row < matrix.length - 1) {
+		if (row >= 0 && row < matrix.length - 1) { // down
 			numberOfPaths(row + 1, col);
 		}
-		if (col >= 0 && col < matrix[0].length - 1) {
+		if (col >= 0 && col < matrix[0].length - 1) { // right
 			numberOfPaths(row, col + 1);
 		}
-		if (row >= 0 && row < matrix.length - 1 && col >= 0 && col < matrix[0].length - 1) {
+		if (row >= 0 && row < matrix.length - 1 && col >= 0 && col < matrix[0].length - 1) { // diagonal
 			numberOfPaths(row + 1, col + 1);
 		}
 	}
