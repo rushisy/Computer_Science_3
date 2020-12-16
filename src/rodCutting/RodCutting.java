@@ -12,6 +12,10 @@ public class RodCutting {
 		for (Integer number : array)
 			list.add(number);
 
+		rods();
+	}
+
+	public static void rods() {
 		System.out.print("Max value for rod of length ");
 		if (list.size() > 0 && list.contains((Integer) 0)) { // length zero will always give us zero dollars
 			list.remove((Integer) 0); // type cast for recognition of object not index
